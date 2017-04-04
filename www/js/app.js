@@ -62,7 +62,7 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs'])
 
 
 
-   
+
 
     .state('app.registro', {
         url: '/registro',
@@ -73,14 +73,22 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs'])
             }
         }
     })
-    
-     .state('app.reportes', {
+
+    .state('app.reportes', {
         url: '/reportes',
         views: {
             'menuContent': {
                 templateUrl: "templates/reportes.html",
                 controller: "reportesController as reportes"
             }
+        }
+    })
+
+    .state('app.reportesTipo', {
+        url: '/reportes/:tipo',
+        views: {
+            templateUrl: 'templates/reportes.tipo.html',
+            controller: 'reportesTipoController as reportesTipo'
         }
     })
 

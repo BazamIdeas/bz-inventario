@@ -23,21 +23,21 @@ angular.module('bz-inventario')
 
                 var user = firebase.auth().currentUser;
 
-                var name, email, photoUrl, uid;
+                var name, email, uid;
 
                 if (user.emailVerified) { //check for verification email confirmed by user from the inbox
 
                     console.log("email verified");
-                    $state.go("app.reportes");
+                    $state.go("app.registro");
 
                     name = user.displayName;
                     email = user.email;
-                    photoUrl = user.photoURL;
+                   
                     uid = user.uid;
 
                     //console.log(name + "<>" + email + "<>" +  photoUrl + "<>" +  uid);
 
-                    localStorage.setItem("photo", photoUrl);
+             
 
                 } else {
 
@@ -95,7 +95,7 @@ angular.module('bz-inventario')
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
 
-            $document[0].getElementById("photo_user").src = localStorage.getItem("photo");
+          
 
 
         } else {
@@ -239,6 +239,14 @@ angular.module('bz-inventario')
 /* REPORTES  */
 
 .controller('reportesController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG) {
+   
+    
+    this.algo = "hola";
+    
+
+}])
+
+.controller('reportesTipoController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG) {
    
     
     this.algo = "hola";
