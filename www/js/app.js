@@ -84,11 +84,14 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs'])
         }
     })
 
-    .state('app.reportesTipo', {
-        url: '/reportes/:tipo',
+    .state('app.reportes.tipo', {
+        url: '/:tipo',
         views: {
-            templateUrl: 'templates/reportes.tipo.html',
-            controller: 'reportesTipoController as reportesTipo'
+            'tipoReporte': {
+                templateUrl: 'templates/reportes.tipo.html',
+                controller: 'reportesTipoController as reportesTipo'
+
+            }
         }
     })
 
