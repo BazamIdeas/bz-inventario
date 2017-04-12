@@ -1,0 +1,36 @@
+<ion-view hide-back-button="false" title="Almacenes" hide-nav-bar="false">
+    <ion-content class="has-header">
+        <div class="padding">
+ 
+        <button class="button button-block  button-balanced" ui-sref="app.almacenesRegistro">
+            Nuevo Almacen
+        </button>
+        <div class="list">
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Almacen
+                </div>
+                <select>
+                    <option>#1</option>
+                    <option>#2</option>
+                    <option>#3</option> 
+                </select>
+            </label>
+        </div>
+        <button class="button button-block button-positive" ui-sref="app.almacenesDetalles({id: 1})">
+            Ver Almacen
+        </button>
+        <button class="button button-block button-energized" ui-sref="app.almacenesReporteTodo({id: 1})">
+            Movimientos
+        </button>
+        <button class="button button-block button-energized" ui-sref="app.almacenesReporteIngresos({id: 1})">
+            Ingresos
+        </button>
+        <button class="button button-block button-energized" ui-sref="app.almacenesReporteEgresos({id: 1})">
+            Egresos
+        </button>
+   
+</div>
+  
+    </ion-content>
+</ion-view>

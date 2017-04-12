@@ -236,37 +236,170 @@ angular.module('bz-inventario')
 }])
 
 
-/* REPORTES  */
-
-.controller('reportesController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG) {
-   
-    
-    this.algo = "hola";
-    
-
-}])
-
-.controller('reportesTipoController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG) {
-   
-    
-    this.algo = "hola";
-    
-
-}])
-
-/* REGISTRO */
-.controller('registroController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG ){
-    
-    
-    this.algo = "hola";
-    
-}])
 
 
 /* REGISTRO */
+.controller('registroController', ['$scope', '$firebaseArray', 'CONFIG', 'bodegaService', function ($scope, $firebaseArray, CONFIG, bodegaService){
+    
+    var bz = this;
+    
+    bodegaService.lista.then(function(res){
+        
+        bz.almacenes = res.data.result;
+            
+    });
+    
+    
+    
+}])
+
+
+.controller('registroOpcionesController', ['$scope', '$firebaseArray', 'CONFIG', 'bodegaService', function ($scope, $firebaseArray, CONFIG, bodegaService ){
+    
+    var bz = this;
+    
+    bodegaService.lista.then(function(res){
+        
+        bz.almacenes = res.data.result;
+            
+    });
+    
+}])
+
+.controller('registroIngresoController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG ){
+    
+    
+    this.algo = "hola";
+    
+}])
+
+.controller('registroEgresoController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG ){
+    
+    
+    this.algo = "hola";
+    
+}])
+
+
+/*PRODUCTOS */
+
+.controller('productosController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG ){
+    
+    
+    this.algo = "hola";
+    
+}])
+
+
+/* USUARIOS */
+
+
 .controller('usuariosController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG ){
     
     
     this.algo = "hola";
     
 }])
+
+
+.controller('usuariosRegistroController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG ){
+    
+    
+    this.algo = "hola";
+    
+}])
+
+.controller('usuariosListadoController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG ){
+    
+    
+    this.algo = "hola";
+    
+}])
+
+
+/* PROVEEDORES */
+
+
+.controller('proveedoresController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG ){
+    
+    
+    this.algo = "hola";
+    
+}])
+
+
+/* TRABAJADORES */
+
+.controller('trabajadoresController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG ){
+    
+    
+    this.algo = "hola";
+    
+}])
+
+
+/* ALMACENES */
+
+
+.controller('almacenesController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG ){
+    
+    
+    this.algo = "hola";
+    
+}])
+
+.controller('almacenesOpcionesController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG){
+    
+    this.listaAlmacenes = [];
+   
+        
+   
+    
+}])
+
+.controller('almacenesRegistroController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG ){
+    
+    
+    this.algo = "hola";
+    
+}])
+
+.controller('almacenesDetallesController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG ){
+    
+    
+    this.algo = "hola";
+    
+}])
+
+.controller('almacenesReporteTodoController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG ){
+    
+    
+    this.algo = "hola";
+    
+}])
+
+.controller('almacenesReporteIngresosController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG ){
+    
+    
+    this.algo = "hola";
+    
+}])
+
+.controller('almacenesReporteIngresosController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG ){
+    
+    
+    this.algo = "hola";
+    
+}])
+
+.controller('almacenesEliminarController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG ){
+    
+    
+    this.algo = "hola";
+    
+}])
+
+
+
+
+

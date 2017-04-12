@@ -1,29 +1,29 @@
 <ion-side-menus enable-menu-with-back-views="false">
+   
+    
     <ion-side-menu-content>
         <ion-nav-bar class="bar-stable">
             <ion-nav-back-button>
             </ion-nav-back-button>
-
             <ion-nav-buttons side="left">
                 <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
-        </button>
+                </button>
             </ion-nav-buttons>
         </ion-nav-bar>
         <ion-nav-view name="menuContent">
-        
+            <!--menuContent -->
         </ion-nav-view>
     </ion-side-menu-content>
-
-    <ion-side-menu side="left">
+     <ion-side-menu side="left">
 
         <ion-content>
 
             <ion-list>
                 <ion-item menu-close ui-sref="app.registro">
-                    Registro
+                    Nuevo Movimiento
                 </ion-item>
-                <ion-item menu-close ui-sref="app.reportes">
-                    Reportes
+                <ion-item menu-close ui-sref="app.almacenes">
+                    Almacenes
                     <ion-option-button class="button-positive">
                         Completo
                     </ion-option-button>
@@ -34,12 +34,20 @@
                         Egresos
                     </ion-option-button>
                 </ion-item>
-                
+                <ion-item menu-close ui-sref="app.productos">
+                    Productos
+                </ion-item>
+                <ion-item menu-close ui-sref="app.proveedores">
+                    Proveedores
+                </ion-item>
+                <ion-item menu-close ui-sref="app.trabajadores">
+                    Trabajadores
+                </ion-item>
                 <ion-item menu-close ui-sref="app.usuarios">
                     Usuarios
                 </ion-item>
-
-
+                
+                
                 <ion-item menu-close ng-click="doLogout()">
                     Salir
                 </ion-item>
