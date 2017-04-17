@@ -1,32 +1,23 @@
-<ion-view hide-back-button="false" title="Egresos Almacen X" hide-nav-bar="false">
+<ion-view hide-back-button="false" title="{{almacenesReEg.bodega.bodega}} - Egresos" hide-nav-bar="false">
     <ion-content class="has-header">
         <div class="padding">
 
             <div class="list">
                 <div class="item item-divider">
-                   fecha / nombre producto/ cantidad del producto 
+                    <div class="row">
+                        <div class="col">Orden #</div>
+                        <div class="col">Trabajdor</div>
+                    </div>
                 </div>
                 <div class="item">
-                    <h2>Producto #1 </h2>
-                    <p>Lorem Ipsum</p>
-                   
+                    <div class="row" ng-repeat="egreso in almacenesReEg.egresos">
+                        <div class="col">{{egreso.orden}}</div>
+                        <div class="col">{{egreso.trabajador}}</div>
+                    </div>
+
                 </div>
-                <div class="item">
-                    <h2>Producto #2</h2>
-                    <p>Lorem Ipsum</p>
-                    
-                </div>
-                <div class="item">
-                    <h2>Producto #3</h2>
-                    <p>Lorem Ipsum</p>
-                  
-                </div>
-                <div class="item">
-                    <h2>Producto #4</h2>
-                    <p>Lorem Ipsum</p>
-                 
-                </div>
-              
+             
+
             </div>
         </div>
     </ion-content>

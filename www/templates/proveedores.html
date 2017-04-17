@@ -1,34 +1,14 @@
 <ion-view hide-back-button="false" title="Proveedores" hide-nav-bar="false">
     <ion-content class="has-header">
         <div class="padding">
-            <button class="button button-block button-positive" ui-sref="app.usuariosRegistro">
+            <button class="button button-block button-positive" ui-sref="app.proveedoresRegistro">
                 Nuevo Proveedor
             </button>
             <div class="list">
-                <div class="item ">
-                    <h2>Ozzy Osbourne</h2>
-                    <p>Lorem Ipsum</p>
+                <div class="item" ng-repeat="proveedor in proveedores.proveedores">
+                    <h2>{{proveedor.nombreProveedor}}</h2>
+                    <p>{{proveedor.descripcion}}</p>
                     
-                </div>
-                <div class="item ">
-                    <h2>Ozzy Osbourne</h2>
-                    <p>Lorem Ipsum</p>
-                    
-                </div>
-                <div class="item ">
-                    <h2>Tommy Iommi</h2>
-                    <p>Lorem Ipsum</p>
-                   
-                </div>
-                <div class="item ">
-                    <h2>Bill Ward</h2>
-                    <p>Lorem Ipsum</p>
-                   
-                </div>
-                <div class="item ">
-                    <h2>Geezer Buttler</h2>
-                    <p>Lorem Ipsum</p>
-                  
                 </div>
             </div>
         </div>

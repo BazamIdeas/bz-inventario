@@ -1,32 +1,27 @@
-<ion-view hide-back-button="false" title="Ingresos Almacen X" hide-nav-bar="false">
+<ion-view hide-back-button="false" title="{{almacenesReIn.bodega.bodega}} - Ingresos" hide-nav-bar="false">
     <ion-content class="has-header">
         <div class="padding">
 
             <div class="list">
                 <div class="item item-divider">
-                   fecha / nombre producto/ cantidad del producto 
+                    <div class="row">
+                        <div class="col">Tipo de Documento</div>
+                        <div class="col">Documento #</div>
+                        <div class="col">Proveedor</div>
+                        <div class="col">Usuario</div>
+                    </div>
                 </div>
                 <div class="item">
-                    <h2>Producto #1 </h2>
-                    <p>Lorem Ipsum</p>
-                   
+                    <div class="row" ng-repeat="ingreso in almacenesReIn.ingresos">
+                        <div class="col">{{ingreso.tipoDocumento}}</div>
+                        <div class="col">{{ingreso.numeroDoc}}</div>
+                        <div class="col">{{ingreso.nombreProveedor}}</div>
+                        <div class="col">{{ingreso.usuarioIngreso}}</div>
+                    </div>
+
                 </div>
-                <div class="item">
-                    <h2>Producto #2</h2>
-                    <p>Lorem Ipsum</p>
-                    
-                </div>
-                <div class="item">
-                    <h2>Producto #3</h2>
-                    <p>Lorem Ipsum</p>
-                  
-                </div>
-                <div class="item">
-                    <h2>Producto #4</h2>
-                    <p>Lorem Ipsum</p>
-                 
-                </div>
-              
+
+
             </div>
         </div>
     </ion-content>

@@ -1,32 +1,24 @@
 <ion-view hide-back-button="false" title="Listado de Productos" hide-nav-bar="false">
     <ion-content class="has-header">
         <div class="padding">
-
+            <button class="button button-block button-positive" ui-sref="app.usuariosRegistro">
+                Nuevo Producto
+            </button>
             <div class="list">
                 <div class="item item-divider">
-                   Productos
+                    <div class="row">
+                        <div class="col">Codigo</div>
+                        <div class="col">Nombre</div>
+                        <div class="col">Descripción</div>
+                    </div>
                 </div>
-                <div class="item">
-                    <h2>Producto #1 </h2>
-                    <p>Lorem Ipsum</p>
-                   
+                <div class="item" ng-repeat="producto in productos.productos">
+                    <div class="row">
+                        <div class="col">{{producto.codigo}}</div>
+                        <div class="col">{{producto.nombreProducto}}</div>
+                        <div class="col">{{producto.descripcion}}</div>
+                    </div>
                 </div>
-                <div class="item">
-                    <h2>Producto #2</h2>
-                    <p>Lorem Ipsum</p>
-                    
-                </div>
-                <div class="item">
-                    <h2>Producto #3</h2>
-                    <p>Lorem Ipsum</p>
-                  
-                </div>
-                <div class="item">
-                    <h2>Producto #4</h2>
-                    <p>Lorem Ipsum</p>
-                 
-                </div>
-              
             </div>
         </div>
     </ion-content>

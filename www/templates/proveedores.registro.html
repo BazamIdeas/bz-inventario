@@ -1,0 +1,21 @@
+<ion-view hide-back-button="false" title="Nuevo Proveedor" hide-nav-bar="false">
+    <ion-content>
+        <div class="padding">
+            <form name="formRegTrabaj" ng-submit="proveedoresRe.registrar(proveedoresRe.proveedor, formRegTrabaj.$valid)">
+                <div class="list">
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Nombre Completo</span>
+                        <input type="text" placeholder="Nombre Completo" ng-model="proveedoresRe.proveedor.nombreProveedor" required>
+                    </label>
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Descripción</span>
+                        <input type="text" placeholder="Descripción" ng-model="proveedoresRe.proveedor.descripcion" required>
+                    </label>
+                </div>
+                <button class="button button-block button-positive">
+                    Registrar
+                </button>
+            </form>
+        </div>
+    </ion-content>
+</ion-view>

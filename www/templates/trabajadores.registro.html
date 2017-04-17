@@ -1,0 +1,17 @@
+<ion-view hide-back-button="false" title="Nuevo Trabajador" hide-nav-bar="false">
+    <ion-content>
+        <div class="padding">
+            <form name="formRegTrabaj" ng-submit="trabajadoresRe.registrar(trabajadoresRe.trabajador, formRegTrabaj.$valid)">
+                <div class="list">
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Nombre Completo</span>
+                        <input type="text" placeholder="Nombre Completo" ng-model="trabajadoresRe.trabajador.nombre" required>
+                    </label>
+                </div>
+                <button class="button button-block button-positive">
+                    Registrar
+                </button>
+            </form>
+        </div>
+    </ion-content>
+</ion-view>

@@ -6,60 +6,20 @@
             </button>
             <div class="list">
                 <div class="item item-divider">
-                    Admin
+                    Administrador
                 </div>
-                <div class="item">
-                    <h2>Ronnie James Dio</h2>
-                    <p>Lorem Ipsum</p>
+                <div class="item" ng-repeat="usuario in usuarios.usuarios | filter: {tipoUser: 'Admin'}">
+                    <h2>{{usuario.nombre}}</h2>
+                    <p>{{usuario.email}}</p>
                 </div>
                 <div class="item item-divider">
-                    Usuarios
+                    Asistente
                 </div>
-                <div class="item item-toggle">
-                    <h2>Ozzy Osbourne</h2>
-                    <p>Lorem Ipsum</p>
+                <div class="item item-toggle"  ng-repeat="usuario in usuarios.usuarios | filter: {tipoUser: 'User'}">
+                    <h2>{{usuario.nombre}}</h2>
+                    <p>{{usuario.email}}</p>
                     <label class="toggle">
-                        <input type="checkbox">
-                        <div class="track">
-                            <div class="handle"></div>
-                        </div>
-                    </label>
-                </div>
-                <div class="item item-toggle">
-                    <h2>Ozzy Osbourne</h2>
-                    <p>Lorem Ipsum</p>
-                    <label class="toggle">
-                        <input type="checkbox">
-                        <div class="track">
-                            <div class="handle"></div>
-                        </div>
-                    </label>
-                </div>
-                <div class="item item-toggle">
-                    <h2>Tommy Iommi</h2>
-                    <p>Lorem Ipsum</p>
-                    <label class="toggle">
-                        <input type="checkbox">
-                        <div class="track">
-                            <div class="handle"></div>
-                        </div>
-                    </label>
-                </div>
-                <div class="item item-toggle">
-                    <h2>Bill Ward</h2>
-                    <p>Lorem Ipsum</p>
-                    <label class="toggle">
-                        <input type="checkbox">
-                        <div class="track">
-                            <div class="handle"></div>
-                        </div>
-                    </label>
-                </div>
-                <div class="item item-toggle">
-                    <h2>Geezer Buttler</h2>
-                    <p>Lorem Ipsum</p>
-                    <label class="toggle">
-                        <input type="checkbox">
+                        <input type="checkbox" ng-model="usuario.estado" ng-true-value="'1'" ng-false-value="'0'">
                         <div class="track">
                             <div class="handle"></div>
                         </div>

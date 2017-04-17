@@ -1,36 +1,34 @@
 <ion-view hide-back-button="false" title="Almacenes" hide-nav-bar="false">
     <ion-content class="has-header">
         <div class="padding">
- 
-        <button class="button button-block  button-balanced" ui-sref="app.almacenesRegistro">
+
+            <button class="button button-block  button-balanced" ui-sref="app.almacenesRegistro">
             Nuevo Almacen
         </button>
-        <div class="list">
-            <label class="item item-input item-select">
+            <div class="list">
+                <label class="item item-input item-select">
                 <div class="input-label">
-                    Almacen
+                    Almacen:
                 </div>
-                <select>
-                    <option>#1</option>
-                    <option>#2</option>
-                    <option>#3</option> 
+                <select ng-model="almacenes.almacenElegido" >
+                    <option ng-repeat="almacen in almacenes.listaAlmacenes" value="{{$index}}">{{almacen.bodega}}</option> 
                 </select>
-            </label>
+                </label>
+            </div>
+            <button ng-disabled="!almacenes.listaAlmacenes[almacenes.almacenElegido]" class="button button-block button-positive" ui-sref="app.almacenesDetalles({id: almacenes.listaAlmacenes[almacenes.almacenElegido].idBodega, nombre: almacenes.listaAlmacenes[almacenes.almacenElegido].bodega})">
+                Ver Almacen
+            </button>
+            <button ng-disabled="!almacenes.listaAlmacenes[almacenes.almacenElegido]" class="button button-block button-energized" ui-sref="app.almacenesReporteTodo({id: almacenes.listaAlmacenes[almacenes.almacenElegido].idBodega, nombre: almacenes.listaAlmacenes[almacenes.almacenElegido].bodega})">
+                Movimientos
+            </button>
+            <button ng-disabled="!almacenes.listaAlmacenes[almacenes.almacenElegido]" class="button button-block button-energized" ui-sref="app.almacenesReporteIngresos({id: almacenes.listaAlmacenes[almacenes.almacenElegido].idBodega, nombre: almacenes.listaAlmacenes[almacenes.almacenElegido].bodega})">
+                Ingresos
+            </button>
+            <button ng-disabled="!almacenes.listaAlmacenes[almacenes.almacenElegido]" class="button button-block button-energized" ui-sref="app.almacenesReporteEgresos({id: almacenes.listaAlmacenes[almacenes.almacenElegido].idBodega, nombre: almacenes.listaAlmacenes[almacenes.almacenElegido].bodega})">
+                Egresos
+            </button>
+
         </div>
-        <button class="button button-block button-positive" ui-sref="app.almacenesDetalles({id: 1})">
-            Ver Almacen
-        </button>
-        <button class="button button-block button-energized" ui-sref="app.almacenesReporteTodo({id: 1})">
-            Movimientos
-        </button>
-        <button class="button button-block button-energized" ui-sref="app.almacenesReporteIngresos({id: 1})">
-            Ingresos
-        </button>
-        <button class="button button-block button-energized" ui-sref="app.almacenesReporteEgresos({id: 1})">
-            Egresos
-        </button>
-   
-</div>
-  
+
     </ion-content>
 </ion-view>

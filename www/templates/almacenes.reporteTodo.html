@@ -1,34 +1,28 @@
-<ion-view hide-back-button="false" title="Movimientos Almacen X" hide-nav-bar="false">
+<ion-view hide-back-button="false" title="{{almacenesReTo.bodega.bodega}} - Movimientos" hide-nav-bar="false">
     <ion-content class="has-header">
         <div class="padding">
 
             <div class="list">
                 <div class="item item-divider">
-                   fecha / nombre producto/ cantidad del producto 
+                    <div class="row">
+                        <div class="col">Fecha</div>
+                        <div class="col">Codigo</div>
+                        <div class="col">Producto</div>
+                        <div class="col">Cantidad</div>
+                    </div>
                 </div>
                 <div class="item">
-                    <h2>Producto #1 </h2>
-                    <p>Lorem Ipsum</p>
-                   
+                    <div class="row" ng-repeat="movimiento in almacenesReTo.movimientos">
+                        <div class="col">{{movimiento.fecha}}</div>
+                        <div class="col">{{movimiento.codigo}}</div>
+                        <div class="col">{{movimiento.nombreProducto}}</div>
+                        <div class="col">{{movimiento.cantidad}}</div>
+                    </div>
+
                 </div>
-                <div class="item">
-                    <h2>Producto #2</h2>
-                    <p>Lorem Ipsum</p>
-                    
-                </div>
-                <div class="item">
-                    <h2>Producto #3</h2>
-                    <p>Lorem Ipsum</p>
-                  
-                </div>
-                <div class="item">
-                    <h2>Producto #4</h2>
-                    <p>Lorem Ipsum</p>
-                 
-                </div>
-              
+             
+
             </div>
         </div>
     </ion-content>
 </ion-view>
-
