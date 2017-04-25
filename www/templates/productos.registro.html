@@ -1,0 +1,37 @@
+<ion-view hide-back-button="false" title="Nuevo producto" hide-nav-bar="false">
+    <ion-content>
+        <div class="padding">
+            <form name="formRegProd" ng-submit="productosRe.registrar(productosRe.productos, formRegProd.$valid)">
+                <div class="list">
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Nombre</span>
+                        <input type="text" placeholder="Nombre" ng-model="productosRe.productos.nombreProducto" name="nombre" ng-minlength="3" required>
+                    </label>
+                    <div ng-messages="formRegProd.nombre.$error" style="color:maroon" role="alert" ng-show="formRegProd.$submitted">
+                        <div ng-message="required">Este campo es requerido.</div>
+                        <div ng-message="minlength">Debe contener minimo 3 caracteres</div>
+                    </div>
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Código</span>
+                        <input type="text" placeholder="Código" ng-model="productosRe.productos.codigo" name="codigo" ng-minlength="3" required>
+                    </label>
+                     <div ng-messages="formRegProd.descripcion.$error" style="color:maroon" role="alert" ng-show="formRegProd.$submitted">
+                        <div ng-message="required">Este campo es requerido.</div>
+                        <div ng-message="minlength">Debe contener minimo 3 caracteres</div>
+                    </div>                    
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Descripción</span>
+                        <input type="text" placeholder="Descripción" ng-model="productosRe.productos.descripcion" name="descripcion" ng-minlength="3" required>
+                    </label>
+                     <div ng-messages="formRegProd.descripcion.$error" style="color:maroon" role="alert" ng-show="formRegProd.$submitted">
+                        <div ng-message="required">Este campo es requerido.</div>
+                        <div ng-message="minlength">Debe contener minimo 3 caracteres</div>
+                    </div>
+                </div>
+                <button class="button button-block button-positive" type="submit" ng-click="formRegProd.$setSubmitted()">
+                    Registrar
+                </button>
+            </form>
+        </div>
+    </ion-content>
+</ion-view>

@@ -5,20 +5,25 @@
             <div class="list">
                 <div class="item item-divider">
                     <div class="row">
-                        <div class="col">Tipo de Documento</div>
-                        <div class="col">Documento #</div>
+                        <div class="col">Documento</div>
+                        <div class="col">Número</div>
                         <div class="col">Proveedor</div>
                         <div class="col">Usuario</div>
                     </div>
                 </div>
-                <div class="item">
-                    <div class="row" ng-repeat="ingreso in almacenesReIn.ingresos">
+                <div class="item" ng-repeat="ingreso in almacenesReIn.ingresos" ng-click="almacenesReIn.abrirModalMovimientos(ingreso, almacenesReIn.bodega.idBodega )">
+                    <div class="row" >
                         <div class="col">{{ingreso.tipoDocumento}}</div>
                         <div class="col">{{ingreso.numeroDoc}}</div>
                         <div class="col">{{ingreso.nombreProveedor}}</div>
                         <div class="col">{{ingreso.usuarioIngreso}}</div>
                     </div>
 
+                </div>
+                <div class="item" ng-hide="almacenesReIn.ingresos.length">
+                    <div class="row">
+                        <div class="col">No se encontraron ingresos</div>
+                    </div>
                 </div>
 
 

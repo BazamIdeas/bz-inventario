@@ -1,84 +1,59 @@
-<ion-view hide-back-button="false" title="Nuevo Ingreso Almacen X" hide-nav-bar="false">
+<ion-view hide-back-button="false" title="{{registroIngreso.bodega.bodega}} - Nueva orden de Ingreso" hide-nav-bar="false">
     <ion-content>
         <div class="padding">
-            <div class="list">
-                 <div class="item item-divider">
-                    Datos de Ingreso
+            <form name="formIngreso" ng-submit="registroIngreso.registrar(registroIngreso.registro)">
+                <div class="list">
+                    <div class="item item-divider">
+                        Datos de Ingreso
+                    </div>
+                    <label class="item item-input item-select">
+                        <div class="input-label">
+                            Proveedor
+                        </div>
+                        <select ng-model="registroIngreso.registro.proveedores_idProveedor" required>
+                            <option ng-repeat="proveedor in registroIngreso.proveedores" value="{{proveedor.idProveedor}}"> {{proveedor.nombreProveedor}}
+                            </option>
+                        </select>
+                    </label>
+                    <label class="item item-input item-select">
+                        <div class="input-label">
+                            Tipo de documento
+                        </div>
+                        <select ng-model="registroIngreso.registro.tipoDocumento" required>
+                            <option value="Factura">Factura</option>
+                            <option value="Boleta">Boleta</option>
+                            <option value="Orden de compra">Orden de compra</option> 
+                        </select>
+                    </label>
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">N# de documento</span>
+                        <input ng-model="registroIngreso.registro.numeroDoc" type="text" placeholder="N# de documento" required>
+                    </label>
+                    <div class="item item-divider" ng-repeat-start="producto in registroIngreso.registro.ingresos">
+                        Producto #{{$index + 1}}
+                    </div>
+                    <label class="item item-input item-select">
+                        <div class="input-label">
+                            Producto
+                        </div>
+                        <select ng-model="producto.productos_idProducto" required>
+                            <option value="{{producto.idProducto}}" ng-repeat="producto in registroIngreso.productos">{{producto.nombreProducto}}</option>
+                        </select>
+                    </label>
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Cantidad</span>
+                        <input ng-model="producto.cantidad" type="text" placeholder="Cantidad" required>
+                    </label>
+                    <label class="item item-input item-floating-label" ng-repeat-end>
+                        <span class="input-label">Precio de Compra</span>
+                        <input ng-model="producto.precio" type="text" placeholder="Precio de Compra" required>
+                    </label>
+                    <input class="button button-block button-energized" type="button" ng-click="registroIngreso.registro.ingresos.push({tipo: 'Ingreso', bodegas_idBodega: registroIngreso.bodega.idBodega})" value="Agregar Producto" required>
                 </div>
-                <label class="item item-input item-select">
-                    <div class="input-label">
-                        Proveedor
-                    </div>
-                    <select>
-                        <option>Antonio</option>
-                        <option>pepito</option>
-                        <option>Petronilla</option>
-                    </select>
-                </label>
-                <label class="item item-input item-select">
-                    <div class="input-label">
-                        Tipo de documento
-                    </div>
-                    <select>
-                           <option>1</option>
-                        <option>2</option>
-                        <option>3</option> 
-                    </select>
-                </label>
-                <label class="item item-input item-floating-label">
-                    <span class="input-label">N# de documento</span>
-                    <input type="text" placeholder="N# de documento">
-                </label>
-                <div class="item item-divider">
-                    Producto #1
-                </div>
-                <label class="item item-input item-select">
-                    <div class="input-label">
-                        Producto
-                    </div>
-                    <select>
-                          <option>Antonio</option>
-                        <option>pepito</option>
-                        <option>Petronilla</option>
-                    
-                    </select>
-                </label>
-                <label class="item item-input item-floating-label">
-                    <span class="input-label">Cantidad</span>
-                    <input type="text" placeholder="Cantidad">
-                </label>
-                <label class="item item-input item-floating-label">
-                    <span class="input-label">Precio de Compra</span>
-                    <input type="text" placeholder="Precio de Compra">
-                </label>
-                 <div class="item item-divider">
-                    Producto #2
-                </div>
-                <label class="item item-input item-select">
-                    <div class="input-label">
-                        Producto
-                    </div>
-                    <select>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option> 
-                    </select>
-                </label>
-                <label class="item item-input item-floating-label">
-                    <span class="input-label">Cantidad</span>
-                    <input type="text" placeholder="Cantidad">
-                </label>
-                <label class="item item-input item-floating-label">
-                    <span class="input-label">Precio de Compra</span>
-                    <input type="text" placeholder="Precio de Compra">
-                </label>
-            </div>
-            <button class="button button-block button-positive">
-                Registrar
-            </button>
-            <button class="button button-block button-positive" ui-sref="app.usuarios.listado">
-                Volver
-            </button>
+                <button class="button button-block button-positive">
+                    Registrar
+                </button>
+            </form>
         </div>
     </ion-content>
 </ion-view>

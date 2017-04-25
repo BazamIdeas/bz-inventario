@@ -1,8 +1,13 @@
-<ion-view hide-back-button="false" title="Almacenes" hide-nav-bar="false">
+<ion-view hide-back-button="true" title="Almacenes" hide-nav-bar="false">
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+    </ion-nav-buttons>
+    <ion-nav-title>
+        Almacenes
+    </ion-nav-title>
     <ion-content class="has-header">
         <div class="padding">
-
-            <button class="button button-block  button-balanced" ui-sref="app.almacenesRegistro">
+        <button class="button button-block  button-balanced" ui-sref="app.almacenesRegistro">
             Nuevo Almacen
         </button>
             <div class="list">
@@ -27,8 +32,6 @@
             <button ng-disabled="!almacenes.listaAlmacenes[almacenes.almacenElegido]" class="button button-block button-energized" ui-sref="app.almacenesReporteEgresos({id: almacenes.listaAlmacenes[almacenes.almacenElegido].idBodega, nombre: almacenes.listaAlmacenes[almacenes.almacenElegido].bodega})">
                 Egresos
             </button>
-
         </div>
-
     </ion-content>
 </ion-view>

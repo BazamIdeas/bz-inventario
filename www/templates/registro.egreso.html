@@ -1,7 +1,7 @@
 <ion-view hide-back-button="false" title="{{registroEgreso.bodega.bodega}} - Nueva orden de Egreso" hide-nav-bar="false">
     <ion-content>
         <div class="padding">
-            <form name="formEgreso" ng-submit="console.log(registroEgreso.registro)">
+            <form name="formEgreso" ng-submit="registroEgreso.registrar(registroEgreso.registro)">
                 <div class="list">
                     <div class="item item-divider">
                         Datos de Egreso
@@ -16,26 +16,26 @@
                     </label>
                     <label class="item item-input item-floating-label">
                         <span class="input-label">N# de orden de compra</span>
-                        <input ng-model="registroEgreso.registro.orden" type="text" placeholder="N# de orden de compra">
+                        <input ng-model="registroEgreso.registro.orden" type="text" placeholder="N# de orden de compra" required>
                     </label>  
-                    <div class="item item-divider" ng-repeat-start="producto in registroEgreso.registro.egreso">
+                    <div class="item item-divider" ng-repeat-start="producto in registroEgreso.registro.egresos">
                         Producto #{{$index + 1}}
                     </div>
                     <label class="item item-input item-select">
                         <div class="input-label">
                             Producto
                         </div>
-                        <select ng-model="producto.productos_idProducto">
+                        <select ng-model="producto.productos_idProducto" required>
                             <option value="{{producto.idProducto}}" ng-repeat="producto in registroEgreso.productos">{{producto.nombreProducto}}</option>
                         </select>
                     </label>
                     <label class="item item-input item-floating-label" ng-repeat-end>
                         <span class="input-label">Cantidad</span>
-                        <input ng-model="producto.cantidad" type="text" placeholder="Cantidad">
+                        <input ng-model="producto.cantidad" type="text" placeholder="Cantidad" required>
                     </label>
-                    <button class="button button-block button-energized" ng-click="registroEgreso.registro.egreso.push({tipo: 'egreso', bodegas_idBodega: registroEgreso.bodega.idBodega})">
-                        Agregar Producto
-                    </button>
+                    <input class="button button-block button-energized" type="button" ng-click="registroEgreso.registro.egresos.push({tipo: 'egreso', bodegas_idBodega: registroEgreso.bodega.idBodega, usuarios_idUsuario: 1})" value="Agregar Producto">
+                       
+                   
                 </div>
                 <button class="button button-block button-positive" type="submit">
                     Registrar

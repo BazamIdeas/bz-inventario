@@ -5,19 +5,22 @@
             <div class="list">
                 <div class="item item-divider">
                     <div class="row">
-                        <div class="col">Orden #</div>
-                        <div class="col">Trabajdor</div>
+                        <div class="col">Número de Orden</div>
+                        <div class="col">Trabajador</div>
                     </div>
                 </div>
-                <div class="item">
-                    <div class="row" ng-repeat="egreso in almacenesReEg.egresos">
+                <div class="item" ng-repeat="egreso in almacenesReEg.egresos" ng-click="almacenesReEg.abrirModalMovimientos(egreso, almacenesReEg.bodega.idBodega )">
+                    <div class="row" >
                         <div class="col">{{egreso.orden}}</div>
                         <div class="col">{{egreso.trabajador}}</div>
                     </div>
 
                 </div>
-             
-
+                <div class="item" ng-hide="almacenesReEg.egresos.length">
+                    <div class="row">
+                        <div class="col">No se encontraron egresos</div>
+                    </div>
+                </div>
             </div>
         </div>
     </ion-content>

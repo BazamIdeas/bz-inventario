@@ -1,18 +1,26 @@
 <ion-view hide-back-button="false" title="Nuevo Proveedor" hide-nav-bar="false">
     <ion-content>
         <div class="padding">
-            <form name="formRegTrabaj" ng-submit="proveedoresRe.registrar(proveedoresRe.proveedor, formRegTrabaj.$valid)">
+            <form name="formRegProv" ng-submit="proveedoresRe.registrar(proveedoresRe.proveedor, formRegProv.$valid)">
                 <div class="list">
                     <label class="item item-input item-floating-label">
                         <span class="input-label">Nombre Completo</span>
-                        <input type="text" placeholder="Nombre Completo" ng-model="proveedoresRe.proveedor.nombreProveedor" required>
+                        <input type="text" placeholder="Nombre Completo" ng-model="proveedoresRe.proveedor.nombreProveedor" name="nombre" ng-minlength="3" required>
                     </label>
+                    <div ng-messages="formRegProv.nombre.$error" style="color:maroon" role="alert" ng-show="formRegProv.$submitted">
+                        <div ng-message="required">Este campo es requerido.</div>
+                        <div ng-message="minlength">Debe contener minimo 3 caracteres</div>
+                    </div>
                     <label class="item item-input item-floating-label">
                         <span class="input-label">Descripción</span>
-                        <input type="text" placeholder="Descripción" ng-model="proveedoresRe.proveedor.descripcion" required>
+                        <input type="text" placeholder="Descripción" ng-model="proveedoresRe.proveedor.descripcion" name="descripcion" ng-minlength="3" required>
                     </label>
+                     <div ng-messages="formRegProv.descripcion.$error" style="color:maroon" role="alert" ng-show="formRegProv.$submitted">
+                        <div ng-message="required">Este campo es requerido.</div>
+                        <div ng-message="minlength">Debe contener minimo 3 caracteres</div>
+                    </div>
                 </div>
-                <button class="button button-block button-positive">
+                <button class="button button-block button-positive" type="submit" ng-click="formRegProv.$setSubmitted()">
                     Registrar
                 </button>
             </form>

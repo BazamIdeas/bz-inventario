@@ -1,0 +1,16 @@
+<ion-view hide-back-button="true" hide-nav-bar="true">
+    <ion-content class="has-header">
+        <div class="padding" ng-switch="operacionRe.datos.resultado">
+            <div ng-switch-when="true">{{operacionRe.datos.operacion}} exitoso.
+            
+                <button class="button button-block button-positive" ng-click="operacionRe.redirigir(operacionRe.datos.destino)">
+                    Continuar
+                </button>
+            </div>
+            <div ng-switch-when="false">{{operacionRe.datos.operacion}} fallido. Verifque los datos utilizados.</div>
+            
+            
+        
+        </div>
+    </ion-content>
+</ion-view>

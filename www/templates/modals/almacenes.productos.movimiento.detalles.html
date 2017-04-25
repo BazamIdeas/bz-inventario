@@ -1,0 +1,64 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Detalles del movimiento:</h1> <button class="button button-primary" ng-click="almacenesDe.cerrarModalMovimiento()">Cerrar</button>
+    </ion-header-bar>
+    <ion-content>
+        <div class="list">
+            <div class="item item-divider">
+                <div class="row">
+                    <div class="col">Fecha</div>
+                    <div class="col">Hora</div>
+                    <div class="col">Código</div>
+                    <div class="col">Producto</div>
+                    <div class="col">Cantidad</div>
+                </div>
+            </div>
+            <div class="item" >
+                <div class="row">
+                    <div class="col">{{almacenesDe.crearFecha(almacenesDe.movimiento.fecha) | date: "dd/MM/yyyy"}}</div>
+                    <div class="col">{{almacenesDe.crearFecha(almacenesDe.movimiento.fecha) | date: "hh:mm a"}}</div>
+                    <div class="col">{{almacenesDe.movimiento.codigo}}</div>
+                    <div class="col">{{almacenesDe.movimiento.nombreProducto}}</div>
+                    <div class="col">{{almacenesDe.movimiento.cantidad}}</div>
+                </div>
+            </div>
+            
+            <!-- DETALLES ESPECIFICOS DEL INGRESO -->
+            <div class="item item-divider" ng-show="almacenesDe.movimiento.idIngreso">
+                <div class="row">
+                    <div class="col">Documento</div>
+                    <div class="col">Numero</div>
+                    <div class="col">Proveedor</div>
+                    <div class="col">Precio</div>
+                </div>
+            </div>
+            <div class="item" ng-show="almacenesDe.movimiento.idIngreso">
+                <div class="row">
+                    <div class="col">{{almacenesDe.movimiento.tipoDocumento}}</div>
+                    <div class="col">{{almacenesDe.movimiento.numeroDoc}}</div>
+                    <div class="col">{{almacenesDe.movimiento.nombreProveedor}}</div>
+                    <div class="col">{{almacenesDe.movimiento.precio}}</div>
+                </div>
+            </div>
+            
+            
+            
+            <!-- DETALLES ESPECIFICOS DEL EGRESO -->
+            <div class="item item-divider" ng-show="almacenesDe.movimiento.idEgreso">
+                <div class="row">
+                    <div class="col">Orden</div>
+              
+                    <div class="col">Trabajador</div>
+                  
+                </div>
+            </div>
+            <div class="item" ng-show="almacenesDe.movimiento.idEgreso">
+                <div class="row">
+                    <div class="col">{{almacenesDe.movimiento.orden}}</div>
+                    <div class="col">{{almacenesDe.movimiento.trabajador}}</div>
+                    
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-modal-view>

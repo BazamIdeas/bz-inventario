@@ -5,12 +5,16 @@
                 <div class="list">
                     <label class="item item-input item-floating-label">
                         <span class="input-label">Nombre Completo</span>
-                        <input type="text" placeholder="Nombre Completo" ng-model="trabajadoresRe.trabajador.nombre" required>
+                        <input type="text" placeholder="Nombre Completo" ng-model="trabajadoresRe.trabajador.nombre" name="nombre" ng-minlength="3" required>
                     </label>
+                    <div ng-messages="formRegTrabaj.nombre.$error" style="color:maroon" role="alert" ng-show="formRegTrabaj.$submitted">
+                        <div ng-message="required">Este campo es requerido.</div>
+                        <div ng-message="minlength">Debe contener minimo 3 caracteres</div>
+                    </div>
                 </div>
-                <button class="button button-block button-positive">
-                    Registrar
-                </button>
+                <input class="button button-block button-positive" type="submit" value="Registrar" ng-click="formRegTrabaj.$setSubmitted()">
+                    
+               
             </form>
         </div>
     </ion-content>

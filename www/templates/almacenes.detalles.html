@@ -1,35 +1,35 @@
 <ion-view hide-back-button="false" title="{{almacenesDe.bodega.bodega}}" hide-nav-bar="false">
     <ion-content class="has-header">
-               <button class="button button-block button-assertive" ui-sref="app.almacenesEliminar({id: 1})">
+        <button class="button button-block button-assertive" ng-click="almacenesDe.abrirModal()">
             Eliminar
         </button>
         <div class="padding">
 
             <div class="list">
                 <div class="item item-divider">
-                   Existencias
+                   Productos Almacenados
                 </div>
-                <div class="item">
-                    <h2>Producto #1 </h2>
-                    <p>Lorem Ipsum</p>
+                <div class="item item-divider">
+                   <div class="row">
+                        <div class="col">Código</div>
+                        <div class="col">Nombre</div>
+                       <div class="col">Existencias</div>
+                    </div>
+                </div>
+                <div class="item" ng-repeat="producto in almacenesDe.productos" ng-show="almacenesDe.productos.length" ng-click="almacenesDe.abrirModalProducto(almacenesDe.bodega.idBodega, producto.idProducto)">
+                    <div class="row">
+                        <div class="col">{{producto.codigo}}</div>
+                        <div class="col">{{producto.nombreProducto}}</div>
+                       <div class="col">{{producto.existencia}}</div>
+                    </div>
                    
+                </div> 
+                <div class="item" ng-hide="almacenesDe.productos.length">
+                    <div class="row">
+                        <div class="col">No se encontraron existencias</div>
+                    </div>
+                
                 </div>
-                <div class="item">
-                    <h2>Producto #2</h2>
-                    <p>Lorem Ipsum</p>
-                    
-                </div>
-                <div class="item">
-                    <h2>Producto #3</h2>
-                    <p>Lorem Ipsum</p>
-                  
-                </div>
-                <div class="item">
-                    <h2>Producto #4</h2>
-                    <p>Lorem Ipsum</p>
-                 
-                </div>
-              
             </div>
         </div>
     </ion-content>

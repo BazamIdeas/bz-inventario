@@ -263,8 +263,7 @@ angular.module('bz-inventario')
 
 
 
-.controller('registroIngresoController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', function ($scope, $firebaseArray, CONFIG, $stateParams) {
-
+.controller('registroIngresoController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'productoService', 'ordenService', 'proveedorService', function ($scope, $firebaseArray, CONFIG, $stateParams, productoService, ordenService, proveedorService) {
 
     var bz = this;
 
@@ -273,10 +272,42 @@ angular.module('bz-inventario')
         idBodega: $stateParams.id
     }
 
+    bz.registro = {
+
+        ingresos: []
+
+    }
+
+    bz.productos = [];
+
+    bz.proveedores = []
+
+    proveedorService.lista.then(function (res) {
+
+        bz.proveedores = res.data.result;
+
+    });
+
+    productoService.lista
+
+        .then(function (res) {
+
+        bz.productos = res.data.result;
+
+    });
+
+    bz.registrar = function (registro) {
+
+        ordenService.nuevoIngreso(registro).then(function (res) {
+
+            console.log(res)
+        })
+
+    }
 
 }])
 
-.controller('registroEgresoController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'trabajadorService', 'productoService', function ($scope, $firebaseArray, CONFIG, $stateParams, trabajadorService, productoService) {
+.controller('registroEgresoController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'trabajadorService', 'productoService', 'ordenService', function ($scope, $firebaseArray, CONFIG, $stateParams, trabajadorService, productoService, ordenService) {
 
 
     var bz = this;
@@ -287,11 +318,11 @@ angular.module('bz-inventario')
     }
 
     bz.registro = {
-        egreso: []
+        egresos: []
     }
 
     bz.trabajadores = [];
-    
+
     bz.productos = [];
 
     trabajadorService.lista.then(function (res) {
@@ -308,6 +339,20 @@ angular.module('bz-inventario')
 
     });
 
+    bz.registrar = function (registro) {
+
+        console.log(registro)
+
+        ordenService.nuevoEgreso(registro).then(function (res) {
+
+
+            console.log(res)
+        })
+
+    }
+
+
+
 
 
 }])
@@ -316,7 +361,7 @@ angular.module('bz-inventario')
 /********** PRODUCTOS **************/
 /***********************************/
 
-.controller('productosController', ['$scope', '$firebaseArray', 'CONFIG', 'productoService', function ($scope, $firebaseArray, CONFIG, productoService) {
+.controller('productosController', ['$scope', '$firebaseArray', 'CONFIG', 'productoService', '$ionicModal', function ($scope, $firebaseArray, CONFIG, productoService, $ionicModal) {
 
     var bz = this;
 
@@ -330,7 +375,81 @@ angular.module('bz-inventario')
 
     });
 
+    bz.eliminar = function (idProducto, indice) {
+
+        productoService.eliminar(idProducto)
+
+        .then(function (res) {
+
+                bz.productos.splice(indice, 1);
+                bz.modal.hide();
+
+            })
+            .catch(function (res) {
+
+
+
+            })
+
+    }
+
+
+    $ionicModal.fromTemplateUrl('templates/modals/productos.detalles.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        bz.modal = modal;
+    });
+
+    bz.abrirModal = function (datosProducto, indice) {
+        console.log(datosProducto)
+        bz.datosProducto = datosProducto;
+        bz.indiceProducto = indice;
+        bz.modal.show();
+    };
+    bz.cerrarModal = function () {
+        bz.modal.hide();
+    };
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function () {
+        bz.modal.remove();
+    });
+
+
+
+
 }])
+
+
+
+.controller('productosRegistroController', ['$scope', '$firebaseArray', 'CONFIG', 'productoService', "$state", function ($scope, $firebaseArray, CONFIG, productoService, $state) {
+
+    var bz = this;
+
+    bz.productos = {};
+
+    bz.registrar = function (producto, valido) {
+
+        if (valido) {
+
+            productoService.registrar(producto).then(function (res) {
+
+                $state.go('app.operacionResuelta', {
+                    resultado: true,
+                    operacion: "Registro de Producto",
+                    destino: "app.productos"
+                })
+
+            })
+
+        }
+
+    }
+
+}])
+
+
+
 
 /***********************************/
 /************ USUARIOS *************/
@@ -351,7 +470,7 @@ angular.module('bz-inventario')
 }])
 
 
-.controller('usuariosRegistroController', ['$scope', 'usuarioService', '$firebaseAuth', function ($scope, usuarioService, $firebaseAuth) {
+.controller('usuariosRegistroController', ['$scope', 'usuarioService', '$firebaseAuth', "$state", function ($scope, usuarioService, $firebaseAuth, $state) {
 
     var bz = this;
 
@@ -366,14 +485,34 @@ angular.module('bz-inventario')
                     usuario.uid = firebaseUser.uid;
 
                     usuarioService.registrar(usuario).then(function (res) {
-                        /* REVISAR */
+
+                        $state.go('app.operacionResuelta', {
+                            resultado: true,
+                            operacion: "Registro de usuario",
+                            destino: "app.usuarios"
+                        })
                     });
 
                 })
                 .catch(function (error) {
 
+                    /* ESPECIFICAR ERROR */
                     if (error.code == "auth/email-already-in-use") {
-                        console.log("El email se encuentra en uso")
+
+                        $state.go('app.operacionResuelta', {
+                            resultado: false,
+                            operacion: "Registro de usuario",
+                            destino: "app.usuarios"
+                        })
+
+                    } else {
+
+                        $state.go('app.operacionResuelta', {
+                            resultado: false,
+                            operacion: "Registro de usuario",
+                            destino: "app.usuarios"
+                        })
+
                     }
 
                 })
@@ -411,7 +550,7 @@ angular.module('bz-inventario')
 }])
 
 
-.controller('proveedoresRegistroController', ['$scope', '$firebaseArray', 'CONFIG', 'proveedorService', function ($scope, $firebaseArray, CONFIG, proveedorService) {
+.controller('proveedoresRegistroController', ['$scope', '$firebaseArray', 'CONFIG', 'proveedorService', "$state", function ($scope, $firebaseArray, CONFIG, proveedorService, $state) {
 
     var bz = this;
 
@@ -422,6 +561,12 @@ angular.module('bz-inventario')
         if (valido) {
 
             proveedorService.registrar(proveedor).then(function (res) {
+
+                $state.go('app.operacionResuelta', {
+                    resultado: true,
+                    operacion: "Registro de Proveedor",
+                    destino: "app.proveedores"
+                })
 
             })
 
@@ -444,13 +589,13 @@ angular.module('bz-inventario')
 
     trabajadorService.lista.then(function (res) {
 
-        bz.trabajadores = res.data.result;;
+        bz.trabajadores = res.data.result;
 
     });
 
 }])
 
-.controller('trabajadoresRegistroController', ['$scope', '$firebaseArray', 'CONFIG', 'trabajadorService', function ($scope, $firebaseArray, CONFIG, trabajadorService) {
+.controller('trabajadoresRegistroController', ['$scope', '$firebaseArray', 'CONFIG', 'trabajadorService', '$state', function ($scope, $firebaseArray, CONFIG, trabajadorService, $state) {
 
     var bz = this;
 
@@ -460,9 +605,13 @@ angular.module('bz-inventario')
 
         if (valido) {
 
-
             trabajadorService.registrar(trabajador).then(function (res) {
 
+                $state.go('app.operacionResuelta', {
+                    resultado: true,
+                    operacion: "Registro de Trabajador",
+                    destino: "app.trabajadores"
+                })
 
             })
 
@@ -496,20 +645,186 @@ angular.module('bz-inventario')
 
 }])
 
-.controller('almacenesDetallesController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', function ($scope, $firebaseArray, CONFIG, $stateParams) {
+.controller('almacenesDetallesController', ['$scope', '$stateParams', 'bodegaService', 'paramsNoExisteResolve', '$ionicModal', '$state', 'productoService', 'movimientosService', function ($scope, $stateParams, bodegaService, paramsNoExisteResolve, $ionicModal, $state, productoService, movimientosService) {
 
     var bz = this;
 
-    bz.bodega = {
-        bodega: $stateParams.nombre,
-        idBodega: $stateParams.id
+    if (paramsNoExisteResolve) {
+
+        bz.bodega = {
+            bodega: paramsNoExisteResolve.nombre,
+            idBodega: paramsNoExisteResolve.id
+        }
+
+    } else {
+
+        bz.bodega = {
+            bodega: $stateParams.nombre,
+            idBodega: $stateParams.id
+        }
+
     }
 
+
+
+    bz.productos = [];
+
+    bodegaService.productos(bz.bodega.idBodega).then(function (res) {
+
+        bz.productos = res;
+
+    })
+
+
+    bz.eliminar = function (idAlmacen) {
+
+        bodegaService.eliminar(idAlmacen).then(function (res) {
+
+                $state.go('app.almacenes');
+
+            })
+            .catch(function (res) {
+
+
+            })
+    }
+
+
+    bz.movimientosProducto = [];
+
+
+
+
+
+    /***** MODAL PARA ELIMINAR ALMACEN ***/
+
+    $ionicModal.fromTemplateUrl('templates/modals/almacenes.eliminar.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        bz.modal = modal;
+    });
+
+    bz.abrirModal = function () {
+
+        bz.modal.show();
+    };
+    bz.cerrarModal = function () {
+        bz.modal.hide();
+    };
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function () {
+        bz.modal.remove();
+    });
+
+
+
+
+
+
+    /****MODAL PARA VER MOVIMIENTOS DE UN PRODUCTO*****/
+
+    $ionicModal.fromTemplateUrl('templates/modals/almacenes.productos.detalles.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        bz.modalProducto = modal;
+    });
+
+    bz.abrirModalProducto = function (idAlmacen, idProducto) {
+
+        console.log(idProducto)
+        productoService.movimientos(idAlmacen, idProducto)
+
+        .then(function (res) {
+                bz.filtro = "Egreso";
+
+                bz.movimientosProducto = res;
+                bz.modalProducto.show();
+
+            })
+            .catch(function (res) {
+
+                console.log("fallo")
+
+
+            })
+
+    };
+    bz.cerrarModalProducto = function () {
+
+        bz.modalProducto.hide();
+
+    };
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function () {
+
+        bz.modalProducto.remove();
+
+    });
+
+
+
+
+    /****MODAL PARA VER MOVIMIENTO ESPECIFICO*****/
+
+    $ionicModal.fromTemplateUrl('templates/modals/almacenes.productos.movimiento.detalles.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        bz.modalMovimiento = modal;
+    });
+
+    bz.abrirModalMovimiento = function (movimiento) {
+
+
+        var idMovimiento = (movimiento.tipo == "Ingreso") ? movimiento.idIngreso : movimiento.idEgreso;
+
+
+
+        if (idMovimiento) {
+            movimientosService.detalles(idMovimiento)
+
+            .then(function (res) {
+                    bz.movimiento = res;
+                    bz.modalMovimiento.show();
+
+                })
+                .catch(function (res) {
+
+                    console.log("fallo")
+
+
+                })
+        }
+
+    };
+    bz.cerrarModalMovimiento = function () {
+
+        bz.modalMovimiento.hide();
+
+    };
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function () {
+
+        bz.modalMovimiento.remove();
+
+    });
+
+
+    bz.crearFecha = function (fecha) {
+
+
+        var fechaCreada = new Date(fecha);
+
+        return fechaCreada;
+
+    }
 
 }])
 
 
-.controller('almacenesRegistroController', ['$scope', '$firebaseArray', 'CONFIG', 'bodegaService', function ($scope, $firebaseArray, CONFIG, bodegaService) {
+.controller('almacenesRegistroController', ['$scope', '$firebaseArray', 'CONFIG', 'bodegaService', "$state", function ($scope, $firebaseArray, CONFIG, bodegaService, $state) {
 
     var bz = this;
 
@@ -521,7 +836,12 @@ angular.module('bz-inventario')
 
             bodegaService.registrar(bodega).then(function (res) {
 
-                /*REVISAR */
+                $state.go('app.operacionResuelta', {
+                    resultado: true,
+                    operacion: "Registro de Almacen",
+                    destino: "app.almacenes"
+                })
+
             });
 
         }
@@ -532,37 +852,139 @@ angular.module('bz-inventario')
 
 
 
-.controller('almacenesReporteTodoController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'bodegaService', function ($scope, $firebaseArray, CONFIG, $stateParams, bodegaService) {
+.controller('almacenesReporteTodoController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'bodegaService', 'paramsNoExisteResolve', '$ionicModal', 'movimientosService',function ($scope, $firebaseArray, CONFIG, $stateParams, bodegaService, paramsNoExisteResolve, $ionicModal, movimientosService) {
 
 
     var bz = this;
 
-    bz.bodega = {
-        bodega: $stateParams.nombre,
-        idBodega: $stateParams.id
+    if (paramsNoExisteResolve) {
+
+        bz.bodega = {
+            bodega: paramsNoExisteResolve.nombre,
+            idBodega: paramsNoExisteResolve.id
+        }
+
+    } else {
+
+        bz.bodega = {
+            bodega: $stateParams.nombre,
+            idBodega: $stateParams.id
+        }
+
     }
 
 
-    bz.movimientos = []
+    bz.movimientos = [];
 
     bodegaService.movimientos(bz.bodega.idBodega).then(function (res) {
 
         bz.movimientos = res;
 
     });
+    
+    
+    
+    
+     bz.eliminarMovimiento = function (idMovimiento, indice) {
+         console.log(idMovimiento);
+         
+        movimientosService.eliminarMovimiento(idMovimiento)
+
+        .then(function (res) {
+
+                bz.movimientos.splice(indice, 1);
+              
+                bz.cerrarModalMovimiento()
+
+        })
+        .catch(function (res) {
+            
+                console.log("fallo");
+
+        })
+
+    }
+
+   
+    
+    /****MODAL PARA VER MOVIMIENTO ESPECIFICO*****/
+
+    $ionicModal.fromTemplateUrl('templates/modals/almacenes.todo.movimiento.detalles.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        bz.modalMovimiento = modal;
+    });
+
+    bz.abrirModalMovimiento = function (movimiento, indice) {
+
+        
+        bz.indiceMovimiento = indice;
+        
+        if (movimiento.idMovimiento) {
+            
+            movimientosService.detalles(movimiento.idMovimiento)
+
+            .then(function (res) {
+                
+                bz.movimiento = res;
+                
+                console.log(bz.movimiento)
+              
+                bz.modalMovimiento.show();
+
+                })
+                .catch(function (res) {
+
+                    console.log("fallo")
+
+                })
+        }
+
+    };
+    bz.cerrarModalMovimiento = function () {
+
+        bz.modalMovimiento.hide();
+
+    };
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function () {
+
+        bz.modalMovimiento.remove();
+
+    });
 
 
+    bz.crearFecha = function (fecha) {
+
+
+        var fechaCreada = new Date(fecha);
+
+        return fechaCreada;
+
+    }
 
 
 }])
 
-.controller('almacenesReporteIngresosController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'bodegaService', function ($scope, $firebaseArray, CONFIG, $stateParams, bodegaService) {
+.controller('almacenesReporteIngresosController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'bodegaService', 'paramsNoExisteResolve', 'movimientosService', '$ionicModal', function ($scope, $firebaseArray, CONFIG, $stateParams, bodegaService, paramsNoExisteResolve, movimientosService, $ionicModal) {
 
     var bz = this;
 
-    bz.bodega = {
-        bodega: $stateParams.nombre,
-        idBodega: $stateParams.id
+    if (paramsNoExisteResolve) {
+
+        bz.bodega = {
+            bodega: paramsNoExisteResolve.nombre,
+            idBodega: paramsNoExisteResolve.id
+        }
+
+    } else {
+
+        bz.bodega = {
+            bodega: $stateParams.nombre,
+            idBodega: $stateParams.id
+        }
+
     }
 
     bz.ingresos = []
@@ -573,17 +995,137 @@ angular.module('bz-inventario')
 
     });
 
+      
+    
+    bz.eliminarOrden = function (idProducto, indice) {
+
+        movimientosService.eliminarOrden(idProducto)
+
+        .then(function (res) {
+
+                bz.productos.splice(indice, 1);
+                bz.modalMovimientos.hide();
+
+            })
+            .catch(function (res) {
+
+
+
+            })
+
+    }
+
+
+
+    /****MODAL PARA VER LISTA DE MOVIMIENTOS DE ORDEN ESPECIFICA*****/
+
+    $ionicModal.fromTemplateUrl('templates/modals/almacenes.ingresos.detalles.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        bz.modalMovimientos = modal;
+    });
+
+    
+    // CAMBIAR IDINGRESO POR EL OBJECTO INGRESO
+    bz.abrirModalMovimientos = function (ingreso, idAlmacen) {
+
+        if (ingreso.idIngreso) {
+            
+            movimientosService.movimientosOrden("ingreso", ingreso.idIngreso, idAlmacen)
+
+            .then(function (res) {
+                    bz.movimientos = res;
+                    bz.modalMovimientos.show();
+
+
+                })
+                .catch(function (res) {
+
+                    console.log("fallo")
+
+
+                })
+        }
+
+    };
+    bz.cerrarModalMovimientos = function () {
+
+        bz.modalMovimientos.hide();
+
+    };
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function () {
+
+        bz.modalMovimientos.remove();
+
+    });
+
+
+
+    /****MODAL PARA VER MOVIMIENTO ESPECIFICO*****/
+
+    $ionicModal.fromTemplateUrl('templates/modals/almacenes.ingresos.movimiento.detalles.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        bz.modalMovimiento = modal;
+    });
+
+    bz.abrirModalMovimiento = function (movimiento) {
+
+
+        bz.movimiento = movimiento;
+        bz.modalMovimiento.show();
+
+
+
+    };
+    bz.cerrarModalMovimiento = function () {
+
+        bz.modalMovimiento.hide();
+
+    };
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function () {
+
+        bz.modalMovimiento.remove();
+
+    });
+
+
+    bz.crearFecha = function (fecha) {
+
+
+        var fechaCreada = new Date(fecha);
+
+        return fechaCreada;
+
+    }
+
+
+
 }])
 
-.controller('almacenesReporteEgresosController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'bodegaService', function ($scope, $firebaseArray, CONFIG, $stateParams, bodegaService) {
+.controller('almacenesReporteEgresosController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'bodegaService', 'paramsNoExisteResolve', '$ionicModal', 'movimientosService', function ($scope, $firebaseArray, CONFIG, $stateParams, bodegaService, paramsNoExisteResolve, $ionicModal, movimientosService) {
 
     var bz = this;
 
-    bz.bodega = {
-        bodega: $stateParams.nombre,
-        idBodega: $stateParams.id
-    }
+    if (paramsNoExisteResolve) {
 
+        bz.bodega = {
+            bodega: paramsNoExisteResolve.nombre,
+            idBodega: paramsNoExisteResolve.id
+        }
+
+    } else {
+
+        bz.bodega = {
+            bodega: $stateParams.nombre,
+            idBodega: $stateParams.id
+        }
+
+    }
 
     bz.egresos = []
 
@@ -592,12 +1134,116 @@ angular.module('bz-inventario')
         bz.egresos = res;
 
     });
+    
+    
+    
+    /****MODAL PARA VER LISTA DE MOVIMIENTOS DE ORDEN ESPECIFICA*****/
+
+    $ionicModal.fromTemplateUrl('templates/modals/almacenes.egresos.detalles.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        bz.modalMovimientos = modal;
+    });
+
+    
+    // CAMBIAR IDINGRESO POR EL OBJECTO EGRESO
+    bz.abrirModalMovimientos = function (egreso, idAlmacen) {
+        
+        if (egreso.idEgreso) {
+            movimientosService.movimientosOrden("egreso", egreso.idEgreso, idAlmacen)
+
+            .then(function (res) {
+                console.log(res)
+                
+                    bz.movimientos = res;
+                    bz.modalMovimientos.show();
+
+
+                })
+                .catch(function (res) {
+
+                    console.log("fallo")
+
+
+                })
+        }
+
+    };
+    bz.cerrarModalMovimientos = function () {
+
+        bz.modalMovimientos.hide();
+
+    };
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function () {
+
+        bz.modalMovimientos.remove();
+
+    });
+
+
+
+    /****MODAL PARA VER MOVIMIENTO ESPECIFICO*****/
+
+    $ionicModal.fromTemplateUrl('templates/modals/almacenes.egresos.movimiento.detalles.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        bz.modalMovimiento = modal;
+    });
+
+    bz.abrirModalMovimiento = function (movimiento) {
+
+
+        bz.movimiento = movimiento;
+        bz.modalMovimiento.show();
+
+
+
+    };
+    bz.cerrarModalMovimiento = function () {
+
+        bz.modalMovimiento.hide();
+
+    };
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function () {
+
+        bz.modalMovimiento.remove();
+
+    });
+
+
+    bz.crearFecha = function (fecha) {
+
+
+        var fechaCreada = new Date(fecha);
+
+        return fechaCreada;
+
+    }
 
 }])
 
-.controller('almacenesEliminarController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', function ($scope, $firebaseArray, CONFIG, $stateParams) {
 
 
-    this.algo = "hola";
+.controller('operacionResueltaController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', "$state", function ($scope, $firebaseArray, CONFIG, $stateParams, $state) {
+
+    var bz = this;
+
+    bz.datos = {
+
+        operacion: $stateParams.operacion,
+        resultado: $stateParams.resultado,
+        destino: $stateParams.destino
+
+    }
+
+    bz.redirigir = function (destino) {
+
+        $state.go(destino);
+
+    }
 
 }])

@@ -14,6 +14,74 @@ angular.module('bz-inventario')
 }])
 
 
+.factory('storageFactory', ['$window', '$rootScope', function ($window, $rootScope) {
+    return {
+        definir: function (llave, valor) {
+            $window.localStorage.setItem(llave, JSON.stringify(valor));
+            return this;
+        },
+        obtener: function (llave) {
+            return JSON.parse($window.localStorage.getItem(llave));
+        }
+    };
+
+    }])
+
+
+
+/************************************************/
+/**************** REGISTRO *******************/
+/************************************************/
+
+.service('ordenService', ["$http", "apiRootFactory", "$httpParamSerializer", "$q", function ($http, apiRootFactory, $httpParamSerializer, $q) {
+
+
+    this.nuevoEgreso = function (egreso) {
+
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.post(apiRootFactory + "egreso/registro", egreso, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        .then(function (res) {
+            defered.resolve(res.data.result);
+        })
+
+        return promise;
+    }
+
+    this.nuevoIngreso = function (ingreso) {
+
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.post(apiRootFactory + "ingreso/registro", ingreso, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        .then(function (res) {
+            defered.resolve(res.data.result);
+        })
+
+        return promise;
+
+
+    }
+
+
+
+
+
+}])
+
 /************************************************/
 /********************* BODEGA *******************/
 /************************************************/
@@ -111,6 +179,35 @@ angular.module('bz-inventario')
         return promise;
     }
 
+
+    /** todos los productos en una bodega**/
+
+    this.productos = function (idAlmacen) {
+
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.post(apiRootFactory + "bodega/productos", $httpParamSerializer({
+
+            idBodega: idAlmacen
+
+        }), {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+
+        .then(function (res) {
+
+            defered.resolve(res.data.result);
+
+
+        })
+
+        return promise;
+    }
+
     /* registrar una nuevo almacen */
 
     this.registrar = function (bodega) {
@@ -141,6 +238,33 @@ angular.module('bz-inventario')
     }
 
 
+
+    /* Eliminar un almacen */
+
+    this.eliminar = function (idAlmacen) {
+
+
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.get(apiRootFactory + "bodega/borrar/" + idAlmacen)
+            .then(function (res) {
+
+                defered.resolve(res)
+
+            })
+
+        .catch(function (res) {
+
+            defered.rejected(res)
+
+        })
+
+        return promise;
+    }
+
+
 }])
 
 
@@ -157,6 +281,90 @@ angular.module('bz-inventario')
     this.lista = $http.get(apiRootFactory + "producto/lista");
 
 
+
+    this.registrar = function (producto) {
+
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.post(apiRootFactory + "producto/registro", $httpParamSerializer(producto), {
+            headers: {
+
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+
+        .then(function (res) {
+
+            defered.resolve(res.data.idInsertado);
+
+
+        })
+
+        return promise;
+    }
+
+    /*eliminar producto */
+
+    this.eliminar = function (idProducto) {
+
+
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.get(apiRootFactory + "producto/borrar/" + idProducto)
+            .then(function (res) {
+
+                defered.resolve(res)
+
+            })
+
+        .catch(function (res) {
+
+            defered.rejected(res)
+
+        })
+
+        return promise;
+    }
+
+    /** movimientos de un producto dentro de una bodega **/
+    this.movimientos = function (idAlmacen, idProducto) {
+
+
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.post(apiRootFactory + "movimiento/historial/producto", $httpParamSerializer({
+            idBodega: idAlmacen,
+            idProducto: idProducto
+        }), {
+            headers: {
+
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+
+        .then(function (res) {
+
+            defered.resolve(res.data.result);
+
+        })
+
+        .catch(function (res) {
+
+
+        })
+
+        return promise;
+
+
+
+    }
+
 }])
 
 
@@ -171,7 +379,7 @@ angular.module('bz-inventario')
 
     this.lista = $http.get(apiRootFactory + "proveedor/lista");
 
-     this.registrar = function (proveedor) {
+    this.registrar = function (proveedor) {
 
         var defered = $q.defer();
         var promise = defered.promise;
@@ -279,7 +487,130 @@ angular.module('bz-inventario')
         return promise;
     }
 
+}])
 
+/************************************************/
+/***************** MOVIMIENTOS *****************/
+/************************************************/
+
+
+.service('movimientosService', ["$http", "apiRootFactory", "$httpParamSerializer", "$q", function ($http, apiRootFactory, $httpParamSerializer, $q) {
+
+
+    /* movimientos de una orden */
+
+    this.movimientosOrden = function (tipo, idOrden, idAlmacen) {
+
+        var defered = $q.defer();
+        var promise = defered.promise;
+        
+        var datos = {idBodega: idAlmacen}
+        
+        if(tipo == 'ingreso'){
+            
+            datos.idIngreso = idOrden;
+            
+        }
+        
+        else if(tipo == 'egreso'){
+            
+            datos.idEgreso = idOrden;
+            
+        }
+
+            $http.post(apiRootFactory + tipo + "/datos", $httpParamSerializer(datos), {
+                headers: {
+
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+
+            .then(function (res) {
+
+                defered.resolve(res.data.result);
+
+            })
+
+        return promise;
+
+    }
+
+
+    /* detalle de un movimiento*/
+
+    this.detalles = function (idMovimiento) {
+
+
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.get(apiRootFactory + "movimiento/datos/" + idMovimiento)
+            .then(function (res) {
+
+                defered.resolve(res.data.result)
+
+            })
+
+        .catch(function (res) {
+
+            defered.rejected(res)
+
+        })
+
+        return promise;
+    }
+    
+    this.eliminarOrden = function(tipo, idOrden){
+        
+        
+        
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.get(apiRootFactory + tipo + "/borrar/" + idOrden)
+            .then(function (res) {
+
+                defered.resolve(res)
+
+            })
+
+        .catch(function (res) {
+
+            defered.rejected(res)
+
+        })
+
+        return promise;
+        
+        
+    }
+    
+    /* Eliminar un movimiento */
+
+    this.eliminarMovimiento = function (idMovimiento) {
+
+
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.get(apiRootFactory + "movimiento/borrar/" + idMovimiento)
+            .then(function (res) {
+
+                defered.resolve(res)
+
+            })
+
+        .catch(function (res) {
+
+            defered.rejected(res)
+
+        })
+
+        return promise;
+    }
 
 
 

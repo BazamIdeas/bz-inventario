@@ -1,0 +1,52 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Movimientos del Producto:</h1> <button class="button button-primary" ng-click="almacenesDe.cerrarModalProducto()">Cerrar</button>
+    </ion-header-bar>
+    <ion-content>
+
+        <div class="list">
+            <label class="item item-input item-select">
+                
+                <div class="row">
+                    <div class="col">
+                        <div class="input-label">
+                            Tipo
+                        </div>
+                        <select ng-model="almacenesDe.filtro">
+                            <option value="Egreso">Solo egresos</option>
+                            <option value="Ingreso">Solo ingresos</option>
+                        </select>
+                     </div>
+                </div>
+                    </label>
+            <div class="item item-divider">
+                <div class="row">
+                    <div class="col">Fecha</div>
+                    <div class="col">Código</div>
+                    <div class="col">Producto</div>
+                    <div class="col">Cantidad</div>
+                    
+                
+
+                </div>
+                </div>
+                <div class="item" ng-repeat="movimiento in almacenesDe.movimientosProducto | filter: {tipo: almacenesDe.filtro}" ng-click="almacenesDe.abrirModalMovimiento(movimiento)">
+                    <div class="row">
+                        <div class="col">{{almacenesDe.crearFecha(movimiento.fecha) | date: "dd/MM/yyyy"}}</div>
+                        <div class="col">{{movimiento.codigo}}</div>
+                        <div class="col">{{movimiento.nombreProducto}}</div>
+                        <div class="col">{{movimiento.cantidad}}</div>
+                    </div>
+
+                </div>
+                <div class="item" ng-hide="almacenesDe.movimientosProducto.length">
+                    <div class="row">
+                        <div class="col">No se encontraron movimientos</div>
+                    </div>
+                </div>
+
+
+            </div>
+
+    </ion-content>
+</ion-modal-view>

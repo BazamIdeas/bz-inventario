@@ -1,0 +1,47 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Detalles del movimiento:</h1> <button class="button button-primary" ng-click="almacenesReIn.cerrarModalMovimiento()">Cerrar</button>
+    </ion-header-bar>
+    <ion-content>
+        <div class="list">
+            <div class="item item-divider">
+                <div class="row">
+                    <div class="col">Fecha</div>
+                    <div class="col">Hora</div>
+                    <div class="col">Código</div>
+                    <div class="col">Producto</div>
+                    <div class="col">Cantidad</div>
+                </div>
+            </div>
+            <div class="item" >
+                <div class="row">
+                    <div class="col">{{almacenesReIn.crearFecha(almacenesReIn.movimiento.fecha) | date: "dd/MM/yyyy"}}</div>
+                    <div class="col">{{almacenesReIn.crearFecha(almacenesReIn.movimiento.fecha) | date: "hh:mm a"}}</div>
+                    <div class="col">{{almacenesReIn.movimiento.codigo}}</div>
+                    <div class="col">{{almacenesReIn.movimiento.nombreProducto}}</div>
+                    <div class="col">{{almacenesReIn.movimiento.cantidad}}</div>
+                </div>
+            </div>
+            
+            <!-- DETALLES ESPECIFICOS DEL INGRESO -->
+            <div class="item item-divider">
+                <div class="row">
+                    <div class="col">Documento</div>
+                    <div class="col">Numero</div>
+                    <div class="col">Proveedor</div>
+                    <div class="col">Precio</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="row">
+                    <div class="col">{{almacenesReIn.movimiento.tipoDocumento}}</div>
+                    <div class="col">{{almacenesReIn.movimiento.numeroDoc}}</div>
+                    <div class="col">{{almacenesReIn.movimiento.nombreProveedor}}</div>
+                    <div class="col">{{almacenesReIn.movimiento.precio}}</div>
+                </div>
+            </div>
+            
+
+        </div>
+    </ion-content>
+</ion-modal-view>

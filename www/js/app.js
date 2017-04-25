@@ -1,4 +1,4 @@
-angular.module('bz-inventario', ['ionic', 'firebase', 'configs'])
+angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages'])
 
 .run(function ($ionicPlatform, CONFIG) {
     $ionicPlatform.ready(function () {
@@ -76,7 +76,7 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs'])
         }
     })
 
-  
+
 
     .state('app.registroIngreso', {
         url: '/registro/ingreso/:id',
@@ -88,25 +88,61 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs'])
                 templateUrl: "templates/registro.ingreso.html",
                 controller: "registroIngresoController as registroIngreso"
             }
+        },
+        resolve: {
+
+            paramsNoExisteResolve: ["storageFactory", "$stateParams", '$state', function (storageFactory, $stateParams, $state) {
+
+                if ($stateParams.nombre) {
+
+                    storageFactory.definir($state.name, $stateParams);
+                    return false;
+                } else {
+
+                    return storageFactory.obtener($state.name);
+
+                }
+
+            }]
+
+
         }
     })
 
     .state('app.registroEgreso', {
-        url: '/registro/egreso/:id',
-        params: {
-            nombre: null
-        },
-        views: {
-            'menuContent': {
-                templateUrl: "templates/registro.egreso.html",
-                controller: "registroEgresoController as registroEgreso"
+            url: '/registro/egreso/:id',
+            params: {
+                nombre: null
+            },
+            views: {
+                'menuContent': {
+                    templateUrl: "templates/registro.egreso.html",
+                    controller: "registroEgresoController as registroEgreso"
+                }
+            },
+            resolve: {
+
+                paramsNoExisteResolve: ["storageFactory", "$stateParams", '$state', function (storageFactory, $stateParams, $state) {
+
+                    if ($stateParams.nombre) {
+
+                        storageFactory.definir($state.name, $stateParams);
+                        return false;
+                    } else {
+
+                        return storageFactory.obtener($state.name);
+
+                    }
+
+            }]
+
+
             }
-        }
-    })
-    /****************************************/
-    /************** Almacenes ***************/
-    /****************************************/
-    
+        })
+        /****************************************/
+        /************** Almacenes ***************/
+        /****************************************/
+
     .state('app.almacenes', {
         url: '/almacenes',
         cache: false,
@@ -142,6 +178,24 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs'])
                 controller: 'almacenesDetallesController as almacenesDe'
 
             }
+        },
+        resolve: {
+
+            paramsNoExisteResolve: ["storageFactory", "$stateParams", '$state', function (storageFactory, $stateParams, $state) {
+
+                if ($stateParams.nombre) {
+
+                    storageFactory.definir($state.name, $stateParams);
+                    return false;
+                } else {
+
+                    return storageFactory.obtener($state.name);
+
+                }
+
+            }]
+
+
         }
     })
 
@@ -156,6 +210,24 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs'])
                 controller: 'almacenesReporteTodoController as almacenesReTo'
 
             }
+        },
+        resolve: {
+
+            paramsNoExisteResolve: ["storageFactory", "$stateParams", '$state', function (storageFactory, $stateParams, $state) {
+
+                if ($stateParams.nombre) {
+
+                    storageFactory.definir($state.name, $stateParams);
+                    return false;
+                } else {
+
+                    return storageFactory.obtener($state.name);
+
+                }
+
+            }]
+
+
         }
     })
 
@@ -170,6 +242,24 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs'])
                 controller: 'almacenesReporteIngresosController as almacenesReIn'
 
             }
+        },
+        resolve: {
+
+            paramsNoExisteResolve: ["storageFactory", "$stateParams", '$state', function (storageFactory, $stateParams, $state) {
+
+                if ($stateParams.nombre) {
+
+                    storageFactory.definir($state.name, $stateParams);
+                    return false;
+                } else {
+
+                    return storageFactory.obtener($state.name);
+
+                }
+
+            }]
+
+
         }
     })
 
@@ -184,43 +274,59 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs'])
                 controller: 'almacenesReporteEgresosController as almacenesReEg'
 
             }
-        }
-    })
-
-    .state('app.almacenesEliminar', {
-        url: '/almacenes/eliminar/:id',
-        params: {
-            nombre: null
         },
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/almacenes.eliminar.html',
-                controller: 'almacenesEliminarController as almacenesEl'
+        resolve: {
 
-            }
+            paramsNoExisteResolve: ["storageFactory", "$stateParams", '$state', function (storageFactory, $stateParams, $state) {
+
+                if ($stateParams.nombre) {
+
+                    storageFactory.definir($state.name, $stateParams);
+                    return false;
+                } else {
+
+                    return storageFactory.obtener($state.name);
+
+                }
+
+            }]
+
+
         }
     })
-    /****************************************/
-    /**************** Producto **************/
-    /****************************************/
-    .state('app.productos', {
-        url: '/productos',
-        cache: false,
-        views: {
-            'menuContent': {
-                templateUrl: "templates/productos.html",
-                controller: "productosController as productos"
+
+    
+        /****************************************/
+        /**************** Producto **************/
+        /****************************************/
+        .state('app.productos', {
+            url: '/productos',
+            cache: false,
+            views: {
+                'menuContent': {
+                    templateUrl: "templates/productos.html",
+                    controller: "productosController as productos"
+                }
             }
-        }
-    })
-    
-    
+        })
+        .state('app.productosRegistro', {
+            url: '/productos/registro',
+            cache: false,
+            views: {
+                'menuContent': {
+                    templateUrl: "templates/productos.registro.html",
+                    controller: "productosRegistroController as productosRe"
+                }
+            }
+        })
+
+
     /****************************************/
     /************ Proveedores ***************/
     /****************************************/
-    
-    
-    
+
+
+
     .state('app.proveedores', {
         url: '/proveedores',
         cache: false,
@@ -232,7 +338,7 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs'])
         }
     })
 
-     .state('app.proveedoresRegistro', {
+    .state('app.proveedoresRegistro', {
         url: '/proveedores/registro',
         views: {
             'menuContent': {
@@ -241,7 +347,7 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs'])
             }
         }
     })
-    
+
     /****************************************/
     /*************** Trabajadores ***********/
     /****************************************/
@@ -255,9 +361,10 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs'])
             }
         }
     })
-    
-     .state('app.trabajadoresRegistro', {
+
+    .state('app.trabajadoresRegistro', {
         url: '/trabajadores/registro',
+        cache: false,
         views: {
             'menuContent': {
                 templateUrl: "templates/trabajadores.registro.html",
@@ -265,8 +372,8 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs'])
             }
         }
     })
-    
-    
+
+
 
     /****************************************/
     /*************** usuarios ***************/
@@ -294,6 +401,25 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs'])
         }
     })
 
+    /****************************************/
+    /******** operacion resuelta ************/
+    /****************************************/
+    .state('app.operacionResuelta', {
+        url: '/resultado',
+        params: {
+            operacion: null,
+            resultado: null,
+            destino: null
+        },
+
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: "templates/operacion.resolve.html",
+                controller: "operacionResueltaController as operacionRe"
+            }
+        }
+    })
 
     $urlRouterProvider.otherwise('/login');
 

@@ -1,7 +1,13 @@
-<ion-view hide-back-button="false" title="Listado de Productos" hide-nav-bar="false">
+<ion-view hide-back-button="true" title="Listado de Productos" hide-nav-bar="false">
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+    </ion-nav-buttons>
+    <ion-nav-title>
+        Listado de Productos
+    </ion-nav-title>
     <ion-content class="has-header">
         <div class="padding">
-            <button class="button button-block button-positive" ui-sref="app.usuariosRegistro">
+            <button class="button button-block button-positive" ui-sref="app.productosRegistro">
                 Nuevo Producto
             </button>
             <div class="list">
@@ -9,17 +15,29 @@
                     <div class="row">
                         <div class="col">Codigo</div>
                         <div class="col">Nombre</div>
-                        <div class="col">Descripción</div>
+                        
                     </div>
                 </div>
-                <div class="item" ng-repeat="producto in productos.productos">
-                    <div class="row">
+                <div class="item" ng-repeat="producto in productos.productos" ng-click="productos.abrirModal(producto, $index)">
+                    <div class="row" >
                         <div class="col">{{producto.codigo}}</div>
                         <div class="col">{{producto.nombreProducto}}</div>
-                        <div class="col">{{producto.descripcion}}</div>
                     </div>
+                </div>
+                <div class="item" ng-hide="productos.productos.length">
+
+                     <div class="row">
+                        <div class="col">No se encontraron productos</div>
+                    </div>
+                
                 </div>
             </div>
         </div>
     </ion-content>
+  
+
 </ion-view>
+
+
+
+

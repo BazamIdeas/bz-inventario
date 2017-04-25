@@ -11,17 +11,20 @@
                         <div class="col">Cantidad</div>
                     </div>
                 </div>
-                <div class="item">
-                    <div class="row" ng-repeat="movimiento in almacenesReTo.movimientos">
-                        <div class="col">{{movimiento.fecha}}</div>
+                <div class="item" ng-repeat="movimiento in almacenesReTo.movimientos" ng-click="almacenesReTo.abrirModalMovimiento(movimiento, $index)">
+                    <div class="row" >
+                        <div class="col">{{almacenesReTo.crearFecha(movimiento.fecha) | date : "dd/MM/yyyy" }}</div>
                         <div class="col">{{movimiento.codigo}}</div>
                         <div class="col">{{movimiento.nombreProducto}}</div>
                         <div class="col">{{movimiento.cantidad}}</div>
                     </div>
-
                 </div>
-             
-
+                <div class="item" ng-hide="almacenesReTo.movimientos.length">
+                    <div class="row">
+                        <div class="col">No se encontraron movimientos</div>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </ion-content>

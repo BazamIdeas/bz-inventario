@@ -5,31 +5,45 @@
                 <div class="list">
                     <label class="item item-input item-floating-label">
                         <span class="input-label">Nombre Completo</span>
-                        <input type="text" placeholder="Nombre Completo" ng-model="usuariosRe.usuario.nombre" required>
+                        <input type="text" placeholder="Nombre Completo" ng-model="usuariosRe.usuario.nombre" name="nombre" ng-minlength="3" required>
                     </label>
+                     <div ng-messages="formRegUser.nombre.$error" style="color:maroon" role="alert" ng-show="formRegUser.$submitted">
+                        <div ng-message="required">Este campo es requerido.</div>
+                        <div ng-message="minlength">Debe contener minimo 3 caracteres</div>
+                    </div>
                     <label class="item item-input item-floating-label">
                         <span class="input-label">Email</span>
-                        <input type="text" placeholder="Email" ng-model="usuariosRe.usuario.email" required>
+                        <input type="email" placeholder="Email" ng-model="usuariosRe.usuario.email" name="email" required>
                     </label>
+                    <div ng-messages="formRegUser.email.$error" style="color:maroon" role="alert" ng-show="formRegUser.$submitted">
+                        <div ng-message="required">Este campo es requerido.</div>
+                        <div ng-message="email">No es un email valido</div>
+                    </div>
                     <label class="item item-input item-floating-label">
                         <span class="input-label">Clave</span>
-                        <input type="password" placeholder="Clave" ng-model="usuariosRe.usuario.clave" required>
+                        <input type="password" placeholder="Clave" ng-model="usuariosRe.usuario.clave" name="clave" ng-minlength="6" required>
                     </label>
+                     <div ng-messages="formRegUser.clave.$error" style="color:maroon" role="alert" ng-show="formRegUser.$submitted">
+                        <div ng-message="required">Este campo es requerido.</div>
+                        <div ng-message="minlength">Debe tener minimo 6 caracteres.</div>
+                    </div>
                     <label class="item item-input item-select">
                         <div class="input-label">
                             Tipo
                         </div>
-                        <select ng-model="usuariosRe.usuario.tipoUser" required>
+                        <select ng-model="usuariosRe.usuario.tipoUser" name="tipoUsuario" required>
                             <option value="Admin">Administrador</option>
                             <option value="User">Asistente</option>
                         </select>
+                        
                     </label>
+                    <div ng-messages="formRegUser.tipoUsuario.$error" style="color:maroon" role="alert" ng-show="formRegUser.$submitted">
+                        <div ng-message="required">Este campo es requerido.</div>
+                        <div ng-message="minlength">Debe tener minimo 6 caracteres.</div>
+                    </div>
                 </div>
-                <button class="button button-block button-positive">
+                <button class="button button-block button-positive" type="submit" ng-click="formRegUser.$setSubmitted()">
                     Registrar
-                </button>
-                <button class="button button-block button-positive" ui-sref="app.usuarios">
-                    Volver
                 </button>
             </form>
         </div>
