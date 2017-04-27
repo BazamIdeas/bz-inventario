@@ -1,9 +1,9 @@
 angular.module('bz-inventario')
 
 .constant("apiConstant", {
-    dominio: "//localhost/",
+    dominio: "http://api.bargiotti.cl/",
 
-    path: "api-inventario/public/"
+    path: "public/"
 })
 
 
@@ -487,6 +487,32 @@ angular.module('bz-inventario')
         return promise;
     }
 
+
+    this.login = function (email, uid) {
+
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+    
+                $http.post(apiRootFactory + "usuario/login", $httpParamSerializer({email: email, uid: uid}), {
+                    headers: {
+
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                         'Access-Control-Allow-Origin': '*'
+                    }
+                })    
+
+       
+            .then(function (res) {
+
+                defered.resolve(res.data.result);
+
+
+            })
+
+        return promise;
+    }
+
 }])
 
 /************************************************/
@@ -503,33 +529,33 @@ angular.module('bz-inventario')
 
         var defered = $q.defer();
         var promise = defered.promise;
-        
-        var datos = {idBodega: idAlmacen}
-        
-        if(tipo == 'ingreso'){
-            
+
+        var datos = {
+            idBodega: idAlmacen
+        }
+
+        if (tipo == 'ingreso') {
+
             datos.idIngreso = idOrden;
-            
-        }
-        
-        else if(tipo == 'egreso'){
-            
+
+        } else if (tipo == 'egreso') {
+
             datos.idEgreso = idOrden;
-            
+
         }
 
-            $http.post(apiRootFactory + tipo + "/datos", $httpParamSerializer(datos), {
-                headers: {
+        $http.post(apiRootFactory + tipo + "/datos", $httpParamSerializer(datos), {
+            headers: {
 
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            })
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
 
-            .then(function (res) {
+        .then(function (res) {
 
-                defered.resolve(res.data.result);
+            defered.resolve(res.data.result);
 
-            })
+        })
 
         return promise;
 
@@ -560,11 +586,11 @@ angular.module('bz-inventario')
 
         return promise;
     }
-    
-    this.eliminarOrden = function(tipo, idOrden){
-        
-        
-        
+
+    this.eliminarOrden = function (tipo, idOrden) {
+
+
+
         var defered = $q.defer();
         var promise = defered.promise;
 
@@ -583,10 +609,10 @@ angular.module('bz-inventario')
         })
 
         return promise;
-        
-        
+
+
     }
-    
+
     /* Eliminar un movimiento */
 
     this.eliminarMovimiento = function (idMovimiento) {
@@ -597,11 +623,12 @@ angular.module('bz-inventario')
 
 
         $http.get(apiRootFactory + "movimiento/borrar/" + idMovimiento)
-            .then(function (res) {
 
-                defered.resolve(res)
+        .then(function (res) {
 
-            })
+            defered.resolve(res)
+
+        })
 
         .catch(function (res) {
 

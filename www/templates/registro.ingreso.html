@@ -1,7 +1,7 @@
 <ion-view hide-back-button="false" title="{{registroIngreso.bodega.bodega}} - Nueva orden de Ingreso" hide-nav-bar="false">
     <ion-content>
         <div class="padding">
-            <form name="formIngreso" ng-submit="registroIngreso.registrar(registroIngreso.registro)">
+            <form name="formIngreso" ng-submit="registroIngreso.registrar(registroIngreso.registro, formIngreso.$valid)">
                 <div class="list">
                     <div class="item item-divider">
                         Datos de Ingreso
@@ -10,25 +10,34 @@
                         <div class="input-label">
                             Proveedor
                         </div>
-                        <select ng-model="registroIngreso.registro.proveedores_idProveedor" required>
+                        <select ng-model="registroIngreso.registro.proveedores_idProveedor" required name="proveedor">
                             <option ng-repeat="proveedor in registroIngreso.proveedores" value="{{proveedor.idProveedor}}"> {{proveedor.nombreProveedor}}
                             </option>
                         </select>
                     </label>
+                    <div ng-messages="formIngreso.proveedor.$error" style="color:maroon" role="alert" ng-show="formIngreso.$submitted">
+                        <div ng-message="required">Este campo es requerido.</div>
+                    </div>
                     <label class="item item-input item-select">
                         <div class="input-label">
                             Tipo de documento
                         </div>
-                        <select ng-model="registroIngreso.registro.tipoDocumento" required>
+                        <select ng-model="registroIngreso.registro.tipoDocumento" name="tipo" required>
                             <option value="Factura">Factura</option>
                             <option value="Boleta">Boleta</option>
                             <option value="Orden de compra">Orden de compra</option> 
                         </select>
                     </label>
+                    <div ng-messages="formIngreso.tipo.$error" style="color:maroon" role="alert" ng-show="formIngreso.$submitted">
+                        <div ng-message="required">Este campo es requerido.</div>
+                    </div>
                     <label class="item item-input item-floating-label">
                         <span class="input-label">N# de documento</span>
-                        <input ng-model="registroIngreso.registro.numeroDoc" type="text" placeholder="N# de documento" required>
+                        <input ng-model="registroIngreso.registro.numeroDoc" type="text" placeholder="N# de documento" name="numero" required>
                     </label>
+                    <div ng-messages="formIngreso.numero.$error" style="color:maroon" role="alert" ng-show="formIngreso.$submitted">
+                        <div ng-message="required">Este campo es requerido.</div>
+                    </div>
                     <div class="item item-divider" ng-repeat-start="producto in registroIngreso.registro.ingresos">
                         Producto #{{$index + 1}}
                     </div>
@@ -36,21 +45,21 @@
                         <div class="input-label">
                             Producto
                         </div>
-                        <select ng-model="producto.productos_idProducto" required>
+                        <select ng-model="producto.productos_idProducto">
                             <option value="{{producto.idProducto}}" ng-repeat="producto in registroIngreso.productos">{{producto.nombreProducto}}</option>
                         </select>
                     </label>
                     <label class="item item-input item-floating-label">
                         <span class="input-label">Cantidad</span>
-                        <input ng-model="producto.cantidad" type="text" placeholder="Cantidad" required>
+                        <input ng-model="producto.cantidad" type="text" placeholder="Cantidad" >
                     </label>
                     <label class="item item-input item-floating-label" ng-repeat-end>
                         <span class="input-label">Precio de Compra</span>
-                        <input ng-model="producto.precio" type="text" placeholder="Precio de Compra" required>
+                        <input ng-model="producto.precio" type="text" placeholder="Precio de Compra" >
                     </label>
-                    <input class="button button-block button-energized" type="button" ng-click="registroIngreso.registro.ingresos.push({tipo: 'Ingreso', bodegas_idBodega: registroIngreso.bodega.idBodega})" value="Agregar Producto" required>
+                    <input class="button button-block button-energized" type="button" ng-click="registroIngreso.registro.ingresos.push({tipo: 'Ingreso', bodegas_idBodega: registroIngreso.bodega.idBodega})" value="Agregar Producto">
                 </div>
-                <button class="button button-block button-positive">
+                <button class="button button-block button-positive" type="submit" ng-click="formIngreso.$setSubmitted()">
                     Registrar
                 </button>
             </form>

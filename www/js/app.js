@@ -31,6 +31,7 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages'])
 
 .config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 
+    
     $ionicConfigProvider.navBar.alignTitle('center');
 
     $stateProvider
@@ -68,6 +69,9 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages'])
     .state('app.registro', {
         url: '/registro',
         cache: false,
+        params: {
+            reload: null
+        },
         views: {
             'menuContent': {
                 templateUrl: "templates/registro.html",
@@ -151,6 +155,10 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages'])
                 templateUrl: "templates/almacenes.html",
                 controller: "almacenesController as almacenes"
             }
+        },
+        params:{
+            
+            reload: null
         }
     })
 
@@ -302,6 +310,10 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages'])
         .state('app.productos', {
             url: '/productos',
             cache: false,
+         params: {
+            
+            reload: null
+        },
             views: {
                 'menuContent': {
                     templateUrl: "templates/productos.html",
@@ -312,6 +324,10 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages'])
         .state('app.productosRegistro', {
             url: '/productos/registro',
             cache: false,
+         params: {
+            
+            reload: null
+        },
             views: {
                 'menuContent': {
                     templateUrl: "templates/productos.registro.html",
@@ -330,6 +346,10 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages'])
     .state('app.proveedores', {
         url: '/proveedores',
         cache: false,
+         params: {
+            
+            reload: null
+        },
         views: {
             'menuContent': {
                 templateUrl: "templates/proveedores.html",
@@ -340,6 +360,10 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages'])
 
     .state('app.proveedoresRegistro', {
         url: '/proveedores/registro',
+         params: {
+         
+            reload: null
+        },
         views: {
             'menuContent': {
                 templateUrl: "templates/proveedores.registro.html",
@@ -354,6 +378,10 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages'])
     .state('app.trabajadores', {
         url: '/trabajadores',
         cache: false,
+         params: {
+           
+            reload: null
+        },
         views: {
             'menuContent': {
                 templateUrl: "templates/trabajadores.html",
@@ -365,6 +393,10 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages'])
     .state('app.trabajadoresRegistro', {
         url: '/trabajadores/registro',
         cache: false,
+         params: {
+           
+            reload: null
+        },
         views: {
             'menuContent': {
                 templateUrl: "templates/trabajadores.registro.html",
@@ -380,6 +412,10 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages'])
     /****************************************/
     .state('app.usuarios', {
         url: '/usuarios',
+         params: {
+           
+            reload: null
+        },
 
         cache: false,
         views: {
@@ -393,6 +429,10 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages'])
 
     .state('app.usuariosRegistro', {
         url: '/usuarios/registro',
+         params: {
+            
+            reload: null
+        },
         views: {
             'menuContent': {
                 templateUrl: "templates/usuarios.registro.html",

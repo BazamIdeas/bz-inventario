@@ -22,7 +22,7 @@
                 <ion-item menu-close ui-sref="app.registro">
                     Nuevo Movimiento
                 </ion-item>
-                <ion-item menu-close ui-sref="app.almacenes">
+                <ion-item menu-close ui-sref="app.almacenes" ng-show="userDatos.tipoUser != 'User'">
                     Almacenes
                     <ion-option-button class="button-positive">
                         Completo
@@ -34,16 +34,16 @@
                         Egresos
                     </ion-option-button>
                 </ion-item>
-                <ion-item menu-close ui-sref="app.productos">
+                <ion-item menu-close ui-sref="app.productos" ng-show="userDatos.tipoUser != 'User'">
                     Productos
                 </ion-item>
-                <ion-item menu-close ui-sref="app.proveedores">
+                <ion-item menu-close ui-sref="app.proveedores" ng-show="userDatos.tipoUser != 'User'">
                     Proveedores
                 </ion-item>
-                <ion-item menu-close ui-sref="app.trabajadores">
+                <ion-item menu-close ui-sref="app.trabajadores" ng-show="userDatos.tipoUser != 'User'">
                     Trabajadores
                 </ion-item>
-                <ion-item menu-close ui-sref="app.usuarios">
+                <ion-item menu-close ui-sref="app.usuarios" ng-show="userDatos.tipoUser != 'User'">
                     Usuarios
                 </ion-item>
                 
