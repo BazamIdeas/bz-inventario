@@ -37,7 +37,7 @@
                     </label>
                     <label class="item item-input item-floating-label" ng-repeat-end>
                         <span class="input-label">Cantidad</span>
-                        <input ng-model="producto.cantidad" type="text" placeholder="Cantidad">
+                        <input ng-model="producto.cantidad" type="text" placeholder="Cantidad" required>
                     </label>
                     
                     <input class="button button-block button-energized" type="button" ng-click="registroEgreso.registro.egresos.push({tipo: 'egreso', bodegas_idBodega: registroEgreso.bodega.idBodega, usuarios_idUsuario:  registroEgreso.userDatos.idUsuario})" value="Agregar Producto">
