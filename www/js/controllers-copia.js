@@ -2,14 +2,13 @@ angular.module('bz-inventario')
 
 .controller('loginController', ['$scope', '$firebaseArray', 'CONFIG', '$document', '$state', 'usuarioService', 'storageFactory', function ($scope, $firebaseArray, CONFIG, $document, $state, usuarioService, storageFactory) {
 
-    $scope.deshabilitar = false;
+
 
     // Perform the login action when the user submits the login form
     $scope.doLogin = function (userLogin, valido) {
 
         if (valido) {
 
-            $scope.deshabilitar = true;
 
             firebase.auth().signInWithEmailAndPassword(userLogin.username, userLogin.password).then(function (firebaseUser) {
                 // Sign-In successful.
@@ -17,7 +16,6 @@ angular.module('bz-inventario')
 
 
                 usuarioService.login(firebaseUser.email, firebaseUser.uid).then(function (res) {
-                    $scope.deshabilitar = false;
 
                     storageFactory.definir('usuario', res);
 
@@ -28,43 +26,39 @@ angular.module('bz-inventario')
                 })
 
                 .catch(function (res) {
-                    $scope.deshabilitar = false;
+
                     console.log("error del servidor")
 
                 })
 
 
             }).catch(function (error) {
-
-                $scope.deshabilitar = false;
-
                 // An error happened.
                 var errorCode = error.code;
                 var errorMessage = error.message;
-
-
-                /*    if (errorCode === 'auth/invalid-email') {
-                        alert('Usa un email valido.');
-                        return false;
-                    } else if (errorCode === 'auth/wrong-password') {
-                        alert('Contraseña incorrecta.');
-                        return false;
-                    } else if (errorCode === 'auth/argument-error') {
-                        alert('Contraseña incorrecta.');
-                        return false;
-                    } else if (errorCode === 'auth/user-not-found') {
-                        alert('Usuario no encontrado.');
-                        return false;
-                    } else if (errorCode === 'auth/too-many-requests') {
-                        alert('Demasiados intentos, por favor intentalo más tarde.');
-                        return false;
-                    } else if (errorCode === 'auth/network-request-failed') {
-                        alert('El tiempo de espera se agotó, por favor intentalo nuevamente.');
-                        return false;
-                    } else {
-                        alert(errorMessage);
-                        return false;
-                    }*/
+                console.log(errorCode);
+                if (errorCode === 'auth/invalid-email') {
+                    alert('Usa un email valido.');
+                    return false;
+                } else if (errorCode === 'auth/wrong-password') {
+                    alert('Contraseña incorrecta.');
+                    return false;
+                } else if (errorCode === 'auth/argument-error') {
+                    alert('Contraseña incorrecta.');
+                    return false;
+                } else if (errorCode === 'auth/user-not-found') {
+                    alert('Usuario no encontrado.');
+                    return false;
+                } else if (errorCode === 'auth/too-many-requests') {
+                    alert('Demasiados intentos, por favor intentalo más tarde.');
+                    return false;
+                } else if (errorCode === 'auth/network-request-failed') {
+                    alert('El tiempo de espera se agotó, por favor intentalo nuevamente.');
+                    return false;
+                } else {
+                    alert(errorMessage);
+                    return false;
+                }
             })
 
 
@@ -85,11 +79,9 @@ angular.module('bz-inventario')
 
         } else {
             // No user is signed in.
-            $state.go("login", {
-                reload: true
-            }, {
-                reload: true
-            });
+           $state.go("login", {reload: true}, {
+                    reload: true
+                });
         }
     });
 
@@ -101,9 +93,7 @@ angular.module('bz-inventario')
             firebase.auth().signOut().then(function () {
                 // Sign-out successful.
                 //console.log("Logout successful");
-                $state.go("login", {
-                    reload: true
-                }, {
+                $state.go("login", {reload: true}, {
                     reload: true
                 });
 
@@ -238,7 +228,12 @@ angular.module('bz-inventario')
 /************ REGISTRO *************/
 /***********************************/
 
-.controller('registroController', ['$scope', '$firebaseArray', 'CONFIG', 'bodegaService', function ($scope, $firebaseArray, CONFIG, bodegaService) {
+.controller('registroController', ['$scope', '$firebaseArray', 'CONFIG', 'bodegaService', '$stateParams', '$window', function ($scope, $firebaseArray, CONFIG, bodegaService, $stateParams, $window) {
+
+    if ($stateParams.reload) {
+        $window.location.reload();
+
+    }
 
 
     var bz = this;
@@ -262,10 +257,9 @@ angular.module('bz-inventario')
 
 .controller('registroIngresoController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'productoService', 'ordenService', 'proveedorService', '$state', function ($scope, $firebaseArray, CONFIG, $stateParams, productoService, ordenService, proveedorService, $state) {
 
+   
 
     var bz = this;
-
-    bz.deshabilitar = false;
 
     bz.bodega = {
         bodega: $stateParams.nombre,
@@ -297,14 +291,13 @@ angular.module('bz-inventario')
     });
 
     bz.registrar = function (registro, valido) {
-
+       
         if (valido) {
-
-            bz.deshabilitar = true;
-
-
+            
+            console.log("lo hace")
+            
             ordenService.nuevoIngreso(registro).then(function (res) {
-                bz.deshabilitar = false;
+
                 $state.go('app.operacionResuelta', {
                     resultado: true,
                     operacion: "Registro de Ingreso",
@@ -323,11 +316,9 @@ angular.module('bz-inventario')
 .controller('registroEgresoController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'trabajadorService', 'productoService', 'ordenService', 'storageFactory', '$state', function ($scope, $firebaseArray, CONFIG, $stateParams, trabajadorService, productoService, ordenService, storageFactory, $state) {
 
 
-
+   
 
     var bz = this;
-
-    bz.deshabilitar = false;
 
     bz.userDatos = storageFactory.obtener('usuario');
 
@@ -361,9 +352,9 @@ angular.module('bz-inventario')
 
     bz.registrar = function (registro, valido) {
         if (valido) {
-            bz.deshabilitar = true;
+
             ordenService.nuevoEgreso(registro).then(function (res) {
-                bz.deshabilitar = false;
+
                 $state.go('app.operacionResuelta', {
                     resultado: true,
                     operacion: "Registro de Egreso",
@@ -377,18 +368,21 @@ angular.module('bz-inventario')
 
 
 
+
 }])
 
 /***********************************/
 /********** PRODUCTOS **************/
 /***********************************/
 
-.controller('productosController', ['$scope', '$firebaseArray', 'CONFIG', 'productoService', '$ionicModal', '$stateParams', '$window', '$timeout', function ($scope, $firebaseArray, CONFIG, productoService, $ionicModal, $stateParams, $window, $timeout) {
+.controller('productosController', ['$scope', '$firebaseArray', 'CONFIG', 'productoService', '$ionicModal', '$stateParams', '$window', function ($scope, $firebaseArray, CONFIG, productoService, $ionicModal, $stateParams, $window) {
 
+    if ($stateParams.reload) {
+        $window.location.reload();
+
+    }
 
     var bz = this;
-
-    bz.deshabilitar = false;
 
     bz.productos = [];
 
@@ -402,20 +396,17 @@ angular.module('bz-inventario')
 
     bz.eliminar = function (idProducto, indice) {
 
-        bz.deshabilitar = true;
-
         productoService.eliminar(idProducto)
 
         .then(function (res) {
 
-                bz.deshabilitar = false;
                 bz.productos.splice(indice, 1);
                 bz.modal.hide();
 
             })
             .catch(function (res) {
 
-                bz.deshabilitar = false;
+
 
             })
 
@@ -452,9 +443,9 @@ angular.module('bz-inventario')
 
 .controller('productosRegistroController', ['$scope', '$firebaseArray', 'CONFIG', 'productoService', "$state", function ($scope, $firebaseArray, CONFIG, productoService, $state) {
 
-    var bz = this;
+    
 
-    bz.deshabilitar = false;
+    var bz = this;
 
     bz.productos = {};
 
@@ -462,11 +453,7 @@ angular.module('bz-inventario')
 
         if (valido) {
 
-            bz.deshabilitar = true;
-
             productoService.registrar(producto).then(function (res) {
-
-                bz.deshabilitar = false;
 
                 $state.go('app.operacionResuelta', {
                     resultado: true,
@@ -489,7 +476,13 @@ angular.module('bz-inventario')
 /************ USUARIOS *************/
 /***********************************/
 
-.controller('usuariosController', ['$scope', '$firebaseArray', 'CONFIG', 'usuarioService', function ($scope, $firebaseArray, CONFIG, usuarioService) {
+.controller('usuariosController', ['$scope', '$firebaseArray', 'CONFIG', 'usuarioService', '$stateParams', '$window', function ($scope, $firebaseArray, CONFIG, usuarioService, $stateParams, $window) {
+
+    if ($stateParams.reload) {
+        $window.location.reload();
+
+    }
+
 
     var bz = this;
 
@@ -504,11 +497,10 @@ angular.module('bz-inventario')
 }])
 
 
-.controller('usuariosRegistroController', ['$scope', 'usuarioService', '$firebaseAuth', "$state", function ($scope, usuarioService, $firebaseAuth, $state) {
+.controller('usuariosRegistroController', ['$scope', 'usuarioService', '$firebaseAuth', "$state",  function ($scope, usuarioService, $firebaseAuth, $state) {
+
 
     var bz = this;
-
-    bz.deshabilitar = false;
 
     bz.usuario = {};
 
@@ -516,30 +508,22 @@ angular.module('bz-inventario')
 
         if (valido) {
 
-            bz.deshabilitar = true;
-
             $firebaseAuth().$createUserWithEmailAndPassword(usuario.email, usuario.clave).then(function (firebaseUser) {
 
                     usuario.uid = firebaseUser.uid;
 
                     usuarioService.registrar(usuario).then(function (res) {
-                        bz.deshabilitar = false;
+
                         $state.go('app.operacionResuelta', {
                             resultado: true,
                             operacion: "Registro de usuario",
                             destino: "app.usuarios"
                         })
-                    })
-
-                    .catch(function (res) {
-
-                        bz.deshabilitar = false;
-
                     });
 
                 })
                 .catch(function (error) {
-                    bz.deshabilitar = false;
+
                     /* ESPECIFICAR ERROR */
                     if (error.code == "auth/email-already-in-use") {
 
@@ -569,7 +553,7 @@ angular.module('bz-inventario')
 .controller('usuariosListadoController', ['$scope', '$firebaseArray', 'CONFIG', function ($scope, $firebaseArray, CONFIG) {
 
 
-    this.algo = "hola";
+    this.algo = "yyy";
 
 }])
 
@@ -578,7 +562,12 @@ angular.module('bz-inventario')
 /***********************************/
 
 
-.controller('proveedoresController', ['$scope', '$firebaseArray', 'CONFIG', 'proveedorService', function ($scope, $firebaseArray, CONFIG, proveedorService) {
+.controller('proveedoresController', ['$scope', '$firebaseArray', 'CONFIG', 'proveedorService', '$stateParams', '$window', function ($scope, $firebaseArray, CONFIG, proveedorService, $stateParams, $window) {
+
+    if ($stateParams.reload) {
+        $window.location.reload();
+
+    }
 
     var bz = this;
 
@@ -595,10 +584,11 @@ angular.module('bz-inventario')
 
 
 .controller('proveedoresRegistroController', ['$scope', '$firebaseArray', 'CONFIG', 'proveedorService', "$state", function ($scope, $firebaseArray, CONFIG, proveedorService, $state) {
+    
+   
+
 
     var bz = this;
-
-    bz.deshabilitar = false;
 
     bz.proveedor = {};
 
@@ -606,23 +596,13 @@ angular.module('bz-inventario')
 
         if (valido) {
 
-            bz.deshabilitar = true;
-
             proveedorService.registrar(proveedor).then(function (res) {
-
-                bz.deshabilitar = false;
 
                 $state.go('app.operacionResuelta', {
                     resultado: true,
                     operacion: "Registro de Proveedor",
                     destino: "app.proveedores"
                 })
-
-            })
-
-            .catch(function (res) {
-
-                bz.deshabilitar = false;
 
             })
 
@@ -637,7 +617,12 @@ angular.module('bz-inventario')
 /********* TRABAJADORES ************/
 /***********************************/
 
-.controller('trabajadoresController', ['$scope', '$firebaseArray', 'CONFIG', 'trabajadorService', function ($scope, $firebaseArray, CONFIG, trabajadorService) {
+.controller('trabajadoresController', ['$scope', '$firebaseArray', 'CONFIG', 'trabajadorService', '$stateParams', '$window', function ($scope, $firebaseArray, CONFIG, trabajadorService, $stateParams, $window) {
+    
+      if ($stateParams.reload) {
+        $window.location.reload();
+
+    }
 
     var bz = this;
 
@@ -655,31 +640,19 @@ angular.module('bz-inventario')
 
     var bz = this;
 
-    bz.deshabilitar = false;
-
     bz.trabajador = {};
 
     bz.registrar = function (trabajador, valido) {
 
         if (valido) {
 
-            bz.deshabilitar = true;
-
             trabajadorService.registrar(trabajador).then(function (res) {
-
-                bz.deshabilitar = false;
 
                 $state.go('app.operacionResuelta', {
                     resultado: true,
                     operacion: "Registro de Trabajador",
                     destino: "app.trabajadores"
                 })
-
-            })
-
-            .catch(function (res) {
-
-                bz.deshabilitar = false;
 
             })
 
@@ -693,7 +666,15 @@ angular.module('bz-inventario')
 /*********** ALMACENES *************/
 /***********************************/
 
-.controller('almacenesController', ['$scope', '$firebaseArray', 'CONFIG', 'bodegaService', function ($scope, $firebaseArray, CONFIG, bodegaService) {
+.controller('almacenesController', ['$scope', '$firebaseArray', 'CONFIG', 'bodegaService', '$window', '$stateParams', function ($scope, $firebaseArray, CONFIG, bodegaService, $window, $stateParams) {
+
+
+    if ($stateParams.reload) {
+        $window.location.reload();
+
+    }
+
+
 
     var bz = this;
 
@@ -711,14 +692,23 @@ angular.module('bz-inventario')
 
 
 
+
+
+
 }])
 
-.controller('almacenesDetallesController', ['$scope', '$stateParams', 'bodegaService', 'paramsNoExisteResolve', '$ionicModal', '$state', 'productoService', 'movimientosService', '$cordovaFileTransfer', 'apiRootFactory', '$ionicPopup', '$timeout',function ($scope, $stateParams, bodegaService, paramsNoExisteResolve, $ionicModal, $state, productoService, movimientosService, $cordovaFileTransfer, apiRootFactory, $ionicPopup, $timeout) {
+.controller('almacenesDetallesController', ['$scope', '$stateParams', 'bodegaService', 'paramsNoExisteResolve', '$ionicModal', '$state', 'productoService', 'movimientosService', '$window', function ($scope, $stateParams, bodegaService, paramsNoExisteResolve, $ionicModal, $state, productoService, movimientosService, $window) {
+
+
+    if ($stateParams.reload) {
+        
+        $window.location.reload();
+
+    }
+
+
 
     var bz = this;
-
-    bz.deshabilitar = false;
-    bz.desDescarga = true;
 
     if (paramsNoExisteResolve) {
 
@@ -749,85 +739,19 @@ angular.module('bz-inventario')
 
     bz.eliminar = function (idAlmacen) {
 
-        bz.deshabilitar = true;
-
         bodegaService.eliminar(idAlmacen).then(function (res) {
 
-                bz.deshabilitar = false;
-
-                $state.go('app.almacenes');
+                $state.go('app.almacenes', {
+                    reload: true
+                }, {
+                    reload: true
+                });
 
             })
             .catch(function (res) {
 
-                bz.deshabilitar = false;
+
             })
-    }
-
-    /**** link del excel ***/
-    movimientosService.descargar(bz.bodega.idBodega)
-
-    .then(function (res) {
-
-        if (res.response == true) {
-
-            bz.desDescarga = false;
-            bz.linkDescarga = apiRootFactory + res.link;
-
-        }
-
-    })
-
-    .catch(function (res) {
-
-        bz.desDescarga = true;
-
-    })
-
-    bz.progreso = 0;
-    /**** descargar excel ****/
-    bz.descargar = function (link) {
-
-
-        // File name only
-        var nombreArchivo = link.split("/").pop();
-
-        // Save location
-        var directorio = cordova.file.externalRootDirectory + "reportesBargiotti/"  + nombreArchivo;
-
-        bz.progreso = "Iniciando descarga..."
-
-        var popup = $ionicPopup.show({
-            title: 'Progreso de la descarga',
-            template: '{{almacenesDe.progreso}}',
-            scope: $scope
-        });
-
-        $cordovaFileTransfer.download(link, directorio, {}, true).then(function (result) {
-            
-            bz.progreso = "Descarga Completa."
-            
-            $timeout(function () {
-                popup.close();
-            }, 2000);
-
-        }, function (error) {
-
-            bz.progreso = "Descarga fállida."
-
-            $timeout(function () {
-                popup.close();
-            }, 2000);
-
-        }, function (progress) {
-
-            bz.progreso = (((progress.loaded / progress.total) * 100).trunc()).toString() +  "%.";
-
-        });
-
-
-
-
     }
 
 
@@ -965,11 +889,14 @@ angular.module('bz-inventario')
 }])
 
 
-.controller('almacenesRegistroController', ['$scope', '$firebaseArray', 'CONFIG', 'bodegaService', "$state", function ($scope, $firebaseArray, CONFIG, bodegaService, $state) {
+.controller('almacenesRegistroController', ['$scope', '$firebaseArray', 'CONFIG', 'bodegaService', "$state", '$window', '$stateParams', function ($scope, $firebaseArray, CONFIG, bodegaService, $state, $window, $stateParams) {
+
+    if ($stateParams.reload) {
+        $window.location.reload();
+
+    }
 
     var bz = this;
-
-    bz.deshabilitar = false;
 
     bz.nombre = "";
 
@@ -977,16 +904,15 @@ angular.module('bz-inventario')
 
         if (valido) {
 
-            bz.deshabilitar = true;
-
             bodegaService.registrar(bodega).then(function (res) {
-
-                bz.deshabilitar = false;
 
                 $state.go('app.operacionResuelta', {
                     resultado: true,
                     operacion: "Registro de Almacen",
-                    destino: "app.almacenes"
+                    destino: "app.almacenes",
+                            reload: true
+                }, {
+                    reload: true
                 })
 
             });
@@ -999,12 +925,14 @@ angular.module('bz-inventario')
 
 
 
-.controller('almacenesReporteTodoController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'bodegaService', 'paramsNoExisteResolve', '$ionicModal', 'movimientosService', function ($scope, $firebaseArray, CONFIG, $stateParams, bodegaService, paramsNoExisteResolve, $ionicModal, movimientosService) {
+.controller('almacenesReporteTodoController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'bodegaService', 'paramsNoExisteResolve', '$ionicModal', 'movimientosService', '$window', function ($scope, $firebaseArray, CONFIG, $stateParams, bodegaService, paramsNoExisteResolve, $ionicModal, movimientosService, $window) {
 
+    if ($stateParams.reload) {
+        $window.location.reload();
+
+    }
 
     var bz = this;
-
-    bz.deshabilitar = false;
 
     if (paramsNoExisteResolve) {
 
@@ -1035,13 +963,11 @@ angular.module('bz-inventario')
 
 
     bz.eliminarMovimiento = function (idMovimiento, indice) {
-        bz.deshabilitar = true;
+        console.log(idMovimiento);
 
         movimientosService.eliminarMovimiento(idMovimiento)
 
         .then(function (res) {
-
-                bz.deshabilitar = false;
 
                 bz.movimientos.splice(indice, 1);
 
@@ -1049,8 +975,6 @@ angular.module('bz-inventario')
 
             })
             .catch(function (res) {
-
-                bz.deshabilitar = false;
 
                 console.log("fallo");
 
@@ -1082,7 +1006,6 @@ angular.module('bz-inventario')
 
                     bz.movimiento = res;
 
-                    console.log(bz.movimiento)
 
                     bz.modalMovimiento.show();
 
@@ -1095,11 +1018,13 @@ angular.module('bz-inventario')
         }
 
     };
+
     bz.cerrarModalMovimiento = function () {
 
         bz.modalMovimiento.hide();
 
     };
+
     // Cleanup the modal when we're done with it!
     $scope.$on('$destroy', function () {
 
@@ -1120,11 +1045,14 @@ angular.module('bz-inventario')
 
 }])
 
-.controller('almacenesReporteIngresosController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'bodegaService', 'paramsNoExisteResolve', 'movimientosService', '$ionicModal', function ($scope, $firebaseArray, CONFIG, $stateParams, bodegaService, paramsNoExisteResolve, movimientosService, $ionicModal) {
+.controller('almacenesReporteIngresosController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'bodegaService', 'paramsNoExisteResolve', 'movimientosService', '$ionicModal', '$window', function ($scope, $firebaseArray, CONFIG, $stateParams, bodegaService, paramsNoExisteResolve, movimientosService, $ionicModal, $window) {
+
+    if ($stateParams.reload) {
+        $window.location.reload();
+
+    }
 
     var bz = this;
-
-    bz.deshabilitar = false;
 
     if (paramsNoExisteResolve) {
 
@@ -1154,20 +1082,15 @@ angular.module('bz-inventario')
 
     bz.eliminarOrden = function (idIngreso, indice) {
 
-        bz.deshabilitar = true;
-
         movimientosService.eliminarOrden("ingreso", idIngreso)
 
         .then(function (res) {
 
-                bz.deshabilitar = false;
                 bz.ingresos.splice(indice, 1);
                 bz.modalMovimientos.hide();
 
             })
             .catch(function (res) {
-
-                bz.deshabilitar = false;
 
             })
 
@@ -1185,7 +1108,7 @@ angular.module('bz-inventario')
     });
 
 
-    // CAMBIAR IDINGRESO POR EL OBJECTO INGRESO
+
     bz.abrirModalMovimientos = function (ingreso, idAlmacen, indice) {
 
         if (ingreso.idIngreso) {
@@ -1267,7 +1190,13 @@ angular.module('bz-inventario')
 
 }])
 
-.controller('almacenesReporteEgresosController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'bodegaService', 'paramsNoExisteResolve', '$ionicModal', 'movimientosService', function ($scope, $firebaseArray, CONFIG, $stateParams, bodegaService, paramsNoExisteResolve, $ionicModal, movimientosService) {
+.controller('almacenesReporteEgresosController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'bodegaService', 'paramsNoExisteResolve', '$ionicModal', 'movimientosService', '$window', function ($scope, $firebaseArray, CONFIG, $stateParams, bodegaService, paramsNoExisteResolve, $ionicModal, movimientosService, $window) {
+
+    if ($stateParams.reload) {
+        $window.location.reload();
+
+    }
+
 
     var bz = this;
 
@@ -1312,6 +1241,7 @@ angular.module('bz-inventario')
     }
 
 
+
     /****MODAL PARA VER LISTA DE MOVIMIENTOS DE ORDEN ESPECIFICA*****/
 
     $ionicModal.fromTemplateUrl('templates/modals/almacenes.egresos.detalles.html', {
@@ -1322,10 +1252,8 @@ angular.module('bz-inventario')
     });
 
 
-    // CAMBIAR IDINGRESO POR EL OBJECTO EGRESO
+
     bz.abrirModalMovimientos = function (egreso, idAlmacen, indice) {
-
-
 
         if (egreso.idEgreso) {
 
@@ -1335,8 +1263,6 @@ angular.module('bz-inventario')
             movimientosService.movimientosOrden("egreso", egreso.idEgreso, idAlmacen)
 
             .then(function (res) {
-
-
                     bz.movimientos = res;
                     bz.modalMovimientos.show();
 
@@ -1426,7 +1352,6 @@ angular.module('bz-inventario')
         $state.go(destino, {
             reload: true
         });
-
 
     }
 

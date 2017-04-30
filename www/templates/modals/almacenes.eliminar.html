@@ -1,12 +1,12 @@
 <ion-modal-view>
     <ion-header-bar>
-        <h1 class="title">Eliminar almacén</h1> <button class="button button-primary" ng-click="almacenesDe.cerrarModal()">Cerrar</button>
+        <h1 class="title">Eliminar almacén</h1> <button class="button button-primary" ng-click="almacenesDe.cerrarModal()" ng-disabled="almacenesDe.deshabilitar">Cerrar</button>
     </ion-header-bar>
     <ion-content>
         <div class="padding">
         ¿Está seguro de eliminar este almacen? ¡Se pérdera toda la información relacionada!
        
-        <button class="button button-block button-assertive" ng-click="almacenesDe.eliminar(almacenesDe.bodega.idBodega)">
+        <button class="button button-block button-assertive" ng-click="almacenesDe.eliminar(almacenesDe.bodega.idBodega)" ng-disabled="almacenesDe.deshabilitar">
             Eliminar
         </button>
             </div>

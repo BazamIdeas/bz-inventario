@@ -21,12 +21,12 @@
                     </div>
 		</div>
 		<div class="padding">
-			<button type="submit" class="button button-block button-calm" type="submit" ng-click="form_login.$setSubmitted()">Acceder</button>
+			<button type="submit" class="button button-block button-calm" type="submit" ng-click="form_login.$setSubmitted()" ng-disabled="deshabilitar">Acceder</button>
 		</div>
 	 </form>
 
 	 <div class="padding">
-		<button type="submit" class="button button-block button-calm" ui-sref="reset">Reestablecer Contraseña</button>
+		<button type="submit" class="button button-block button-calm" ui-sref="reset" ng-disabled="deshabilitar">Reestablecer Contraseña</button>
 	 </div>	
 	
   </ion-content>

@@ -42,7 +42,7 @@
                         <div ng-message="minlength">Debe tener minimo 6 caracteres.</div>
                     </div>
                 </div>
-                <button class="button button-block button-positive" type="submit" ng-click="formRegUser.$setSubmitted()">
+                <button class="button button-block button-positive" type="submit" ng-click="formRegUser.$setSubmitted()" ng-disabled="usuariosRe.deshabilitar">
                     Registrar
                 </button>
             </form>

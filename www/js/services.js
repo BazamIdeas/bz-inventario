@@ -1,5 +1,6 @@
 angular.module('bz-inventario')
 
+
 .constant("apiConstant", {
     dominio: "http://api.bargiotti.cl/",
 
@@ -493,22 +494,25 @@ angular.module('bz-inventario')
         var defered = $q.defer();
         var promise = defered.promise;
 
-    
-                $http.post(apiRootFactory + "usuario/login", $httpParamSerializer({email: email, uid: uid}), {
-                    headers: {
 
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                         'Access-Control-Allow-Origin': '*'
-                    }
-                })    
+        $http.post(apiRootFactory + "usuario/login", $httpParamSerializer({
+            email: email,
+            uid: uid
+        }), {
+            headers: {
 
-       
-            .then(function (res) {
-
-                defered.resolve(res.data.result);
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
 
 
-            })
+        .then(function (res) {
+
+            defered.resolve(res.data.result);
+
+
+        })
 
         return promise;
     }
@@ -637,6 +641,36 @@ angular.module('bz-inventario')
         })
 
         return promise;
+    }
+
+
+    /* link del excel */
+
+
+
+    this.descargar = function (idAlmacen) {
+
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.get(apiRootFactory + "movimiento/descargar/" + idAlmacen)
+
+        .then(function (res) {
+
+            defered.resolve(res.data)
+
+        })
+
+        .catch(function (res) {
+
+            defered.rejected(res.data)
+
+        })
+
+        return promise;
+
+
     }
 
 

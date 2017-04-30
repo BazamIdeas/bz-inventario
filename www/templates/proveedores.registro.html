@@ -20,7 +20,7 @@
                         <div ng-message="minlength">Debe contener minimo 3 caracteres</div>
                     </div>
                 </div>
-                <button class="button button-block button-positive" type="submit" ng-click="formRegProv.$setSubmitted()">
+                <button class="button button-block button-positive" type="submit" ng-click="formRegProv.$setSubmitted()" ng-disabled="proveedoresRe.deshabilitar">
                     Registrar
                 </button>
             </form>

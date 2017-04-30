@@ -1,6 +1,6 @@
 <ion-modal-view>
     <ion-header-bar>
-        <h1 class="title">Movimientos del Ingreso:</h1> <button class="button button-primary" ng-click="almacenesReIn.cerrarModalMovimientos()">Cerrar</button>
+        <h1 class="title">Movimientos del Ingreso:</h1> <button class="button button-primary" ng-click="almacenesReIn.cerrarModalMovimientos()" ng-disabled="almacenesReIn.deshabilitar">Cerrar</button>
     </ion-header-bar>
     <ion-content>
 
@@ -28,7 +28,7 @@
                 </div>
           </div>
 
-         <button class="button button-block button-assertive" ng-click="almacenesReIn.eliminarOrden(almacenesReIn.ordenIngreso.idIngreso, almacenesReIn.indiceOrden)">
+         <button class="button button-block button-assertive" ng-click="almacenesReIn.eliminarOrden(almacenesReIn.ordenIngreso.idIngreso, almacenesReIn.indiceOrden)" ng-disabled="almacenesReIn.deshabilitar">
             Eliminar
         </button>
     </ion-content>
