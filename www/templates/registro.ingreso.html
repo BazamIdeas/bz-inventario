@@ -45,19 +45,19 @@
                         <div class="input-label">
                             Producto
                         </div>
-                        <select ng-model="producto.productos_idProducto">
+                        <select ng-model="producto.productos_idProducto" required>
                             <option value="{{producto.idProducto}}" ng-repeat="producto in registroIngreso.productos">{{producto.nombreProducto}}</option>
                         </select>
                     </label>
                     <label class="item item-input item-floating-label">
                         <span class="input-label">Cantidad</span>
-                        <input ng-model="producto.cantidad" type="text" placeholder="Cantidad" >
+                        <input ng-model="producto.cantidad" type="text" placeholder="Cantidad" required>
                     </label>
                     <label class="item item-input item-floating-label" ng-repeat-end>
                         <span class="input-label">Precio de Compra</span>
-                        <input ng-model="producto.precio" type="text" placeholder="Precio de Compra" >
+                        <input ng-model="producto.precio" type="text" placeholder="Precio de Compra" required>
                     </label>
-                    <input class="button button-block button-energized" type="button" ng-click="registroIngreso.registro.ingresos.push({tipo: 'Ingreso', bodegas_idBodega: registroIngreso.bodega.idBodega})" value="Agregar Producto">
+                    <input class="button button-block button-energized" type="button" ng-click="registroIngreso.registro.ingresos.push({tipo: 'Ingreso', bodegas_idBodega: registroIngreso.bodega.idBodega, usuarios_idUsuario:  registroIngreso.userDatos.idUsuario})" value="Agregar Producto">
                 </div>
                 <button class="button button-block button-positive" type="submit" ng-click="formIngreso.$setSubmitted()"  ng-disabled="registroIngreso.deshabilitar"> 
                     Registrar

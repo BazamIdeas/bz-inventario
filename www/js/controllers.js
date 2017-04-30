@@ -260,12 +260,14 @@ angular.module('bz-inventario')
 
 
 
-.controller('registroIngresoController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'productoService', 'ordenService', 'proveedorService', '$state', function ($scope, $firebaseArray, CONFIG, $stateParams, productoService, ordenService, proveedorService, $state) {
+.controller('registroIngresoController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'productoService', 'ordenService', 'proveedorService', '$state', 'storageFactory', function ($scope, $firebaseArray, CONFIG, $stateParams, productoService, ordenService, proveedorService, $state, storageFactory) {
 
 
     var bz = this;
 
     bz.deshabilitar = false;
+
+    bz.userDatos = storageFactory.obtener('usuario');
 
     bz.bodega = {
         bodega: $stateParams.nombre,
@@ -274,7 +276,11 @@ angular.module('bz-inventario')
 
     bz.registro = {
 
-        ingresos: []
+        ingresos: [{
+            tipo: 'Ingreso',
+            bodegas_idBodega: bz.bodega.idBodega,
+            usuarios_idUsuario: bz.userDatos.idUsuario
+        }]
 
     }
 
@@ -338,7 +344,11 @@ angular.module('bz-inventario')
     }
 
     bz.registro = {
-        egresos: []
+        egresos: [{
+            tipo: 'egreso',
+            bodegas_idBodega: bz.bodega.idBodega,
+            usuarios_idUsuario: bz.userDatos.idUsuario
+        }]
     }
 
     bz.trabajadores = [];
@@ -713,7 +723,7 @@ angular.module('bz-inventario')
 
 }])
 
-.controller('almacenesDetallesController', ['$scope', '$stateParams', 'bodegaService', 'paramsNoExisteResolve', '$ionicModal', '$state', 'productoService', 'movimientosService', '$cordovaFileTransfer', 'apiRootFactory', '$ionicPopup', '$timeout',function ($scope, $stateParams, bodegaService, paramsNoExisteResolve, $ionicModal, $state, productoService, movimientosService, $cordovaFileTransfer, apiRootFactory, $ionicPopup, $timeout) {
+.controller('almacenesDetallesController', ['$scope', '$stateParams', 'bodegaService', 'paramsNoExisteResolve', '$ionicModal', '$state', 'productoService', 'movimientosService', '$cordovaFileTransfer', 'apiRootFactory', '$ionicPopup', '$timeout', function ($scope, $stateParams, bodegaService, paramsNoExisteResolve, $ionicModal, $state, productoService, movimientosService, $cordovaFileTransfer, apiRootFactory, $ionicPopup, $timeout) {
 
     var bz = this;
 
@@ -793,7 +803,7 @@ angular.module('bz-inventario')
         var nombreArchivo = link.split("/").pop();
 
         // Save location
-        var directorio = cordova.file.externalRootDirectory + "reportesBargiotti/"  + nombreArchivo;
+        var directorio = cordova.file.externalRootDirectory + "reportesBargiotti/" + nombreArchivo;
 
         bz.progreso = "Iniciando descarga..."
 
@@ -804,9 +814,9 @@ angular.module('bz-inventario')
         });
 
         $cordovaFileTransfer.download(link, directorio, {}, true).then(function (result) {
-            
+
             bz.progreso = "Descarga Completa."
-            
+
             $timeout(function () {
                 popup.close();
             }, 2000);
@@ -821,7 +831,7 @@ angular.module('bz-inventario')
 
         }, function (progress) {
 
-            bz.progreso = (((progress.loaded / progress.total) * 100).trunc()).toString() +  "%.";
+            bz.progreso = (((progress.loaded / progress.total) * 100).trunc()).toString() + "%.";
 
         });
 
