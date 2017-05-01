@@ -5,16 +5,16 @@
             <div class="list">
                 <div class="item item-divider">
                     <div class="row">
-                        <div class="col">Fecha</div>
-                        <div class="col">Codigo</div>
+                        <div class="col desaparecer">Fecha</div>
+                        <div class="col desaparecer">Codigo</div>
                         <div class="col">Producto</div>
                         <div class="col">Cantidad</div>
                     </div>
                 </div>
                 <div class="item" ng-repeat="movimiento in almacenesReTo.movimientos" ng-click="almacenesReTo.abrirModalMovimiento(movimiento, $index)">
                     <div class="row" >
-                        <div class="col">{{almacenesReTo.crearFecha(movimiento.fecha) | date : "dd/MM/yyyy" }}</div>
-                        <div class="col">{{movimiento.codigo}}</div>
+                        <div class="col desaparecer">{{almacenesReTo.crearFecha(movimiento.fecha) | date : "dd/MM/yyyy" }}</div>
+                        <div class="col desaparecer">{{movimiento.codigo}}</div>
                         <div class="col">{{movimiento.nombreProducto}}</div>
                         <div class="col">{{movimiento.cantidad}}</div>
                     </div>

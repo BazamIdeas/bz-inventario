@@ -19,7 +19,7 @@
                     </div>
                     <label class="item item-input item-floating-label">
                         <span class="input-label">N# de orden de compra</span>
-                        <input ng-model="registroEgreso.registro.orden" type="text" placeholder="N# de orden de compra" name="numeroOrden" required>
+                        <input ng-model="registroEgreso.registro.orden" type="tel" placeholder="N# de orden de compra" name="numeroOrden" required>
                     </label>  
                     <div ng-messages="formEgreso.numeroOrden.$error" style="color:maroon" role="alert" ng-show="formEgreso.$submitted">
                         <div ng-message="required">Este campo es requerido.</div>
@@ -37,7 +37,7 @@
                     </label>
                     <label class="item item-input item-floating-label" ng-repeat-end>
                         <span class="input-label">Cantidad</span>
-                        <input ng-model="producto.cantidad" type="text" placeholder="Cantidad" required>
+                        <input ng-model="producto.cantidad" type="tel" placeholder="Cantidad" required>
                     </label>
                     
                     <input class="button button-block button-energized" type="button" ng-click="registroEgreso.registro.egresos.push({tipo: 'egreso', bodegas_idBodega: registroEgreso.bodega.idBodega, usuarios_idUsuario:  registroEgreso.userDatos.idUsuario})" value="Agregar Producto">

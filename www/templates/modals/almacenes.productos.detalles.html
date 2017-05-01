@@ -39,11 +39,14 @@
                     </div>
 
                 </div>
-                <div class="item" ng-hide="almacenesDe.movimientosProducto.length">
+            
+                <div class="item" ng-hide="(almacenesDe.movimientosProducto | filter: {tipo: almacenesDe.filtro}).length">
                     <div class="row">
-                        <div class="col">No se encontraron movimientos</div>
+                        <div class="col">No se encontraron movimientos de este tipo.</div>
                     </div>
                 </div>
+            
+                
             </div>
 
     </ion-content>

@@ -26,15 +26,16 @@
                 <div class="item item-divider">
                     Asistente
                 </div>
-                <div class="item item-toggle"  ng-repeat="usuario in usuarios.usuarios | filter: {tipoUser: 'User'}">
+                <div class="item"  ng-repeat="usuario in usuarios.usuarios | filter: {tipoUser: 'User'}">
                     <h2>{{usuario.nombre}}</h2>
                     <p>{{usuario.email}}</p>
-                    <label class="toggle">
+                    <!--<label class="toggle">
                         <input type="checkbox" ng-model="usuario.estado" ng-true-value="'1'" ng-false-value="'0'">
                         <div class="track">
                             <div class="handle"></div>
                         </div>
                     </label>
+                    -->
                 </div>
                 
                 <div class="item" ng-hide="(usuarios.usuarios | filter: {tipoUser: 'User'}).length">

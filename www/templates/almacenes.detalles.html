@@ -15,14 +15,14 @@
                 </div>
                 <div class="item item-divider">
                    <div class="row">
-                        <div class="col">Código</div>
+                        <div class="col desaparecer">Código</div>
                         <div class="col">Nombre</div>
                        <div class="col">Existencias</div>
                     </div>
                 </div>
                 <div class="item" ng-repeat="producto in almacenesDe.productos" ng-show="almacenesDe.productos.length" ng-click="almacenesDe.abrirModalProducto(almacenesDe.bodega.idBodega, producto.idProducto, $index)">
                     <div class="row">
-                        <div class="col">{{producto.codigo}}</div>
+                        <div class="col desaparecer">{{producto.codigo}}</div>
                         <div class="col">{{producto.nombreProducto}}</div>
                        <div class="col">{{producto.existencia}}</div>
                     </div>

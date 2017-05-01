@@ -6,17 +6,17 @@
                 <div class="item item-divider">
                     <div class="row">
                         <div class="col">Documento</div>
-                        <div class="col">Número</div>
+                        <div class="col desaparecer">Número</div>
                         <div class="col">Proveedor</div>
-                        <div class="col">Usuario</div>
+                        <div class="col desaparecer">Usuario</div>
                     </div>
                 </div>
                 <div class="item" ng-repeat="ingreso in almacenesReIn.ingresos" ng-click="almacenesReIn.abrirModalMovimientos(ingreso, almacenesReIn.bodega.idBodega )">
                     <div class="row" >
                         <div class="col">{{ingreso.tipoDocumento}}</div>
-                        <div class="col">{{ingreso.numeroDoc}}</div>
+                        <div class="col desaparecer">{{ingreso.numeroDoc}}</div>
                         <div class="col">{{ingreso.nombreProveedor}}</div>
-                        <div class="col">{{ingreso.usuarioIngreso}}</div>
+                        <div class="col desaparecer">{{ingreso.usuarioIngreso}}</div>
                     </div>
 
                 </div>

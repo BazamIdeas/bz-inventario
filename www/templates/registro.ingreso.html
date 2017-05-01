@@ -33,7 +33,7 @@
                     </div>
                     <label class="item item-input item-floating-label">
                         <span class="input-label">N# de documento</span>
-                        <input ng-model="registroIngreso.registro.numeroDoc" type="text" placeholder="N# de documento" name="numero" required>
+                        <input ng-model="registroIngreso.registro.numeroDoc" type="tel" placeholder="N# de documento" name="numero" required>
                     </label>
                     <div ng-messages="formIngreso.numero.$error" style="color:maroon" role="alert" ng-show="formIngreso.$submitted">
                         <div ng-message="required">Este campo es requerido.</div>
@@ -51,11 +51,11 @@
                     </label>
                     <label class="item item-input item-floating-label">
                         <span class="input-label">Cantidad</span>
-                        <input ng-model="producto.cantidad" type="text" placeholder="Cantidad" required>
+                        <input ng-model="producto.cantidad" type="tel" placeholder="Cantidad" required>
                     </label>
                     <label class="item item-input item-floating-label" ng-repeat-end>
                         <span class="input-label">Precio de Compra</span>
-                        <input ng-model="producto.precio" type="text" placeholder="Precio de Compra" required>
+                        <input ng-model="producto.precio" type="number" placeholder="Precio de Compra" required>
                     </label>
                     <input class="button button-block button-energized" type="button" ng-click="registroIngreso.registro.ingresos.push({tipo: 'Ingreso', bodegas_idBodega: registroIngreso.bodega.idBodega, usuarios_idUsuario:  registroIngreso.userDatos.idUsuario})" value="Agregar Producto">
                 </div>

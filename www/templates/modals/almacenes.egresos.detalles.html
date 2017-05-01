@@ -1,6 +1,6 @@
 <ion-modal-view>
     <ion-header-bar>
-        <h1 class="title">Movimientos del Ingreso:</h1> <button class="button button-primary" ng-click="almacenesReEg.cerrarModalMovimientos()">Cerrar</button>
+        <h1 class="title">Movimientos del Egreso:</h1> <button class="button button-primary" ng-click="almacenesReEg.cerrarModalMovimientos()">Cerrar</button>
     </ion-header-bar>
     <ion-content>
 
@@ -8,8 +8,8 @@
           
             <div class="item item-divider">
                 <div class="row">
-                    <div class="col">Fecha</div>
-                    <div class="col">Código</div>
+                    <div class="col desaparecer">Fecha</div>
+                    <div class="col desaparecer">Código</div>
                     <div class="col">Producto</div>
                     <div class="col">Cantidad</div>
                     
@@ -19,8 +19,8 @@
                 </div>
                 <div class="item" ng-repeat="movimiento in almacenesReEg.movimientos" ng-click="almacenesReEg.abrirModalMovimiento(movimiento)">
                     <div class="row">
-                        <div class="col">{{almacenesReEg.crearFecha(movimiento.fecha) | date: "dd/MM/yyyy"}}</div>
-                        <div class="col">{{movimiento.codigo}}</div>
+                        <div class="col desaparecer">{{almacenesReEg.crearFecha(movimiento.fecha) | date: "dd/MM/yyyy"}}</div>
+                        <div class="col desaparecer">{{movimiento.codigo}}</div>
                         <div class="col">{{movimiento.nombreProducto}}</div>
                         <div class="col">{{movimiento.cantidad}}</div>
                     </div>

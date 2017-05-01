@@ -126,4 +126,16 @@
     width: 150px;
 }
 
+@media (max-width: 360px) and (orientation: portrait) { 
+
+    .desaparecer{
+        
+        display: none;
+        
+    }
+
+
+}
+
+
 
