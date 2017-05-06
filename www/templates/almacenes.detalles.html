@@ -3,39 +3,58 @@
         <button class="button button-block button-assertive" ng-click="almacenesDe.abrirModal()">
             Eliminar
         </button>
-        
+
         <button class="button button-block button-balanced" ng-click="almacenesDe.descargar(almacenesDe.linkDescarga)" ng-disabled="almacenesDe.desDescarga">
             Descargar Movimientos del Mes
         </button>
+
+        <div class="row">
+            <div class="col">
+                <button class="button button-block button-positive" ng-click="almacenesDe.seleccionarRango('inicio')">
+                    Desde: {{almacenesDe.fechaInicioDocumento | date: "dd/MM/yyyy"}}
+                </button>
+            </div>
+            <div class="col">
+                <button class="button button-block button-positive" ng-click="almacenesDe.seleccionarRango('fin')">
+                    Hasta: {{almacenesDe.fechaFinDocumento | date: "dd/MM/yyyy"}}
+                </button>
+            </div>
+           
+        </div>
+       
+
+        <button class="button button-block button-balanced" ng-click="almacenesDe.descargarRango(almacenesDe.fechaInicioDocumento, almacenesDe.fechaFinDocumento)" ng-disabled="almacenesDe.verificarRango(almacenesDe.fechaInicioDocumento, almacenesDe.fechaFinDocumento, almacenesDe.desDescarga)">
+            Descargar Movimientos por Rango
+        </button>
+
         <div class="padding">
 
             <div class="list">
                 <div class="item item-divider">
-                   Productos Almacenados
+                    Productos Almacenados
                 </div>
                 <div class="item item-divider">
-                   <div class="row">
+                    <div class="row">
                         <div class="col desaparecer">Código</div>
                         <div class="col">Nombre</div>
-                       <div class="col">Existencias</div>
+                        <div class="col">Existencias</div>
                     </div>
                 </div>
                 <div class="item" ng-repeat="producto in almacenesDe.productos" ng-show="almacenesDe.productos.length" ng-click="almacenesDe.abrirModalProducto(almacenesDe.bodega.idBodega, producto.idProducto, $index)">
                     <div class="row">
                         <div class="col desaparecer">{{producto.codigo}}</div>
                         <div class="col">{{producto.nombreProducto}}</div>
-                       <div class="col">{{producto.existencia}}</div>
+                        <div class="col">{{producto.existencia}}</div>
                     </div>
-                   
-                </div> 
+
+                </div>
                 <div class="item" ng-hide="almacenesDe.productos.length">
                     <div class="row">
                         <div class="col">No se encontraron existencias</div>
                     </div>
-                
+
                 </div>
             </div>
         </div>
     </ion-content>
 </ion-view>
-

@@ -723,7 +723,7 @@ angular.module('bz-inventario')
 
 }])
 
-.controller('almacenesDetallesController', ['$scope', '$stateParams', 'bodegaService', 'paramsNoExisteResolve', '$ionicModal', '$state', 'productoService', 'movimientosService', '$cordovaFileTransfer', 'apiRootFactory', '$ionicPopup', '$timeout', function ($scope, $stateParams, bodegaService, paramsNoExisteResolve, $ionicModal, $state, productoService, movimientosService, $cordovaFileTransfer, apiRootFactory, $ionicPopup, $timeout) {
+.controller('almacenesDetallesController', ['$scope', '$stateParams', 'bodegaService', 'paramsNoExisteResolve', '$ionicModal', '$state', 'productoService', 'movimientosService', '$cordovaFileTransfer', 'apiRootFactory', '$ionicPopup', '$timeout', 'ionicDatePicker', function ($scope, $stateParams, bodegaService, paramsNoExisteResolve, $ionicModal, $state, productoService, movimientosService, $cordovaFileTransfer, apiRootFactory, $ionicPopup, $timeout, ionicDatePicker) {
 
     var bz = this;
 
@@ -774,6 +774,9 @@ angular.module('bz-inventario')
             })
     }
 
+
+
+
     /**** link del excel ***/
     movimientosService.descargar(bz.bodega.idBodega)
 
@@ -794,16 +797,17 @@ angular.module('bz-inventario')
 
     })
 
-    bz.progreso = 0;
+
     /**** descargar excel ****/
     bz.descargar = function (link) {
 
+        bz.progreso = 0;
 
         // File name only
         var nombreArchivo = link.split("/").pop();
 
         // Save location
-        var directorio = cordova.file.externalRootDirectory + "reportesBargiotti/" + nombreArchivo;
+        var directorio = cordova.file.externalRootDirectory + "reportesBargiotti/mensual/" + nombreArchivo;
 
         bz.progreso = "Iniciando descarga..."
 
@@ -839,6 +843,131 @@ angular.module('bz-inventario')
 
 
     }
+
+    /**********/
+
+
+    /***** excel por rango *****/
+
+
+    bz.seleccionarRango = function (inicioFin) {
+
+
+
+        ionicDatePicker.openDatePicker({
+            callback: function (val) { //Mandatory
+
+                if (inicioFin == 'inicio') {
+
+                    bz.fechaInicioDocumento = new Date(val);
+
+                } else if (inicioFin == 'fin') {
+
+                    bz.fechaFinDocumento = new Date(val);
+
+                }
+
+            },
+            setLabel: 'Seleccionar',
+            todayLabel: 'Hoy',
+            closeLabel: 'Cerrar',
+            weeksList: ["D", "L", "M", "X", "J", "V", "S"],
+            monthsList: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septtiembre", "Octubre", "Noviembre", "Diciembre"],
+            from: new Date(2017, 1, 1), //Optional
+            to: new Date(), //Optional
+            inputDate: new Date(), //Optional
+            mondayFirst: true, //Optional
+            closeOnSelect: false, //Optional
+            templateType: 'popup' //Optional
+
+        });
+    }
+
+
+
+    bz.verificarRango = function (inicio, fin, bloqueo) {
+
+        if (inicio && fin && !bloqueo) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+
+    bz.descargarRango = function (link) {
+
+        bz.desDescarga = true;
+        
+        movimientosService.descargar(bz.bodega.idBodega)
+
+        .then(function (res) {
+
+            if (res.response == true) {
+
+                
+                var link = apiRootFactory + res.link;
+
+
+                bz.progreso = 0;
+
+                // File name only
+                var nombreArchivo = link.split("/").pop();
+
+                // Save location
+                var directorio = cordova.file.externalRootDirectory + "reportesBargiotti/rangos/" + nombreArchivo;
+
+                bz.progreso = "Iniciando descarga..."
+
+                var popup = $ionicPopup.show({
+                    title: 'Progreso de la descarga',
+                    template: '{{almacenesDe.progreso}}',
+                    scope: $scope
+                });
+
+                $cordovaFileTransfer.download(link, directorio, {}, true).then(function (result) {
+
+                    bz.progreso = "Descarga Completa."
+                     bz.desDescarga = false;
+                    $timeout(function () {
+                        popup.close();
+                    }, 2000);
+
+                }, function (error) {
+
+                    bz.progreso = "Descarga fállida."
+                     bz.desDescarga = false;
+
+                    $timeout(function () {
+                        popup.close();
+                    }, 2000);
+
+                }, function (progress) {
+
+                    bz.progreso = (((progress.loaded / progress.total) * 100).trunc()).toString() + "%.";
+
+                });
+
+
+
+            }
+
+        })
+
+        .catch(function (res) {
+
+            bz.desDescarga = true;
+
+        })
+
+
+
+
+    }
+
+
+    /*********/
 
 
     bz.movimientosProducto = [];

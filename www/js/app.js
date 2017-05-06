@@ -1,4 +1,4 @@
-angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages', 'ngCordova'])
+angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages', 'ngCordova', 'ionic-datepicker'])
 
 .run(function ($ionicPlatform, CONFIG) {
     $ionicPlatform.ready(function () {
@@ -29,9 +29,10 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages', '
     });
 })
 
-.config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+.config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', '$httpProvider',  function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
     
-    
+  
+   
     
     $ionicConfigProvider.navBar.alignTitle('center');
 
