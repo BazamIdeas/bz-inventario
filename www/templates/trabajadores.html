@@ -1,6 +1,5 @@
-
 <ion-view hide-back-button="true" title="Trabajadores" hide-nav-bar="false">
-     <ion-nav-buttons side="left">
+    <ion-nav-buttons side="left">
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
     </ion-nav-buttons>
     <ion-nav-title>
@@ -12,10 +11,16 @@
                 Nuevo Trabajador
             </button>
             <div class="list">
-                <div class="item" ng-repeat="trabajador in trabajadores.trabajadores">
-                    <h2>{{trabajador.nombre}}</h2>
+                <div class="item row" ng-repeat="trabajador in trabajadoresFiltrados = (trabajadores.trabajadores | filter: {estadoT: 1})">
+                    <div class="col">
+                        <h2>{{trabajador.nombre}}</h2>
+                    </div>
+                    <div class="col">
+                        <button style="float: right" class="button button-assertive button-small" ng-click="trabajadores.abrirModal(trabajador, $index)">Eliminar</button>
+                    </div>
+
                 </div>
-                <div class="item" ng-hide="trabajadores.trabajadores.length">
+                <div class="item" ng-hide="trabajadoresFiltrados.length">
                     <div class="row">
                         <div class="col">No se encontraron trabajadores</div>
                     </div>

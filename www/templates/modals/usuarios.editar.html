@@ -1,0 +1,43 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Editar Usuario</h1> <button class="button button-primary" ng-click="usuarios.cerrarModalEditar()" ng-disabled="usuarios.deshabilitar">Cerrar</button>
+    </ion-header-bar>
+    <ion-content>
+        <div class="padding">
+
+
+
+            <form name="formEditar" ng-submit="usuarios.editarUsuario(usuarios.usuario, formEditar.$valid)">
+
+                <div class="list">
+                    <div class="item item-divider">
+                        Datos del Usuario 
+                    </div>
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Correo</span>
+                        <input ng-model="usuarios.usuario.email" type="text" placeholder="Correo" name="correo" required disabled>
+                    </label>
+                    <div ng-messages="formEditar.correo.$error" style="color:maroon" role="alert" ng-show="formEditar.$submitted">
+                        <div ng-message="required">Este campo es requerido.</div>
+                    </div>
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Nombre</span>
+                        <input ng-model="usuarios.usuario.nombre" type="text" placeholder="Nombre" name="nombre" required ng-minlength="3">
+                    </label>
+                    <div ng-messages="formEditar.tipo.$error" style="color:maroon" role="alert" ng-show="formEditar.$submitted">
+                        <div ng-message="required">Este campo es requerido.</div>
+                        <div ng-message="minlength">Debe contener minimo 3 caracteres</div>
+                    </div>
+                </div>
+                <button class="button button-block button-positive" type="submit" ng-click="formEditar.$setSubmitted()" ng-disabled="usuarios.deshabilitar">
+                    Registrar
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+    </ion-content>
+</ion-modal-view>

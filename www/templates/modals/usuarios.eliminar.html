@@ -1,0 +1,15 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Eliminar Usuario</h1> <button class="button button-primary" ng-click="usuarios.cerrarModal()" ng-disabled="usuarios.deshabilitar">Cerrar</button>
+    </ion-header-bar>
+    <ion-content>
+        <div class="padding">
+        ¿Está seguro de eliminar este usuario ({{usuarios.usuario.nombre}})? ¡No se podrá utilizar de nuevo para ningun registro!
+       
+        <button class="button button-block button-assertive" ng-click="usuarios.eliminarUsuario(usuarios.usuario)" ng-disabled="usuarios.deshabilitar">
+            Eliminar
+        </button>
+            </div>
+
+    </ion-content>
+</ion-modal-view>

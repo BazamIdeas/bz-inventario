@@ -15,13 +15,22 @@
                     <div class="row">
                         <div class="col">Codigo</div>
                         <div class="col">Nombre</div>
+                        <div class="col desaparecer">Ultimo precio de Compra</div>
+                        <div class="col"></div>
                         
                     </div>
                 </div>
-                <div class="item" ng-repeat="producto in productos.productos" ng-click="productos.abrirModal(producto, $index)">
+                <div class="item" ng-repeat="producto in productos.productos">
                     <div class="row" >
                         <div class="col">{{producto.codigo}}</div>
                         <div class="col">{{producto.nombreProducto}}</div>
+                        <div class="col" ng-show="producto.ultimoPrecio">{{producto.ultimoPrecio | currency }}</div>
+                        <div class="col" ng-hide="producto.ultimoPrecio">N/A</div>                        
+                        <div class="col">
+                            <button class="button button-small button-balanced" ng-click="productos.abrirModal(producto, $index)">
+                                Detalles
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="item" ng-hide="productos.productos.length">

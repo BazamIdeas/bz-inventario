@@ -25,17 +25,21 @@
                     <div class="col">Código</div>
                     <div class="col">Producto</div>
                     <div class="col">Cantidad</div>
+                    <div class="col"></div>
                     
                 
 
                 </div>
                 </div>
-                <div class="item" ng-repeat="movimiento in almacenesDe.movimientosProducto | filter: {tipo: almacenesDe.filtro}" ng-click="almacenesDe.abrirModalMovimiento(movimiento)">
+                <div class="item" ng-repeat="movimiento in almacenesDe.movimientosProducto | filter: {tipo: almacenesDe.filtro}">
                     <div class="row">
                         <div class="col">{{almacenesDe.crearFecha(movimiento.fecha) | date: "dd/MM/yyyy"}}</div>
                         <div class="col">{{movimiento.codigo}}</div>
                         <div class="col">{{movimiento.nombreProducto}}</div>
                         <div class="col">{{movimiento.cantidad}}</div>
+                        <div class="col"> <button class="button button-small button-balanced" ng-click="almacenesDe.abrirModalMovimiento(movimiento)">
+                                Detalles
+                            </button></div>
                     </div>
 
                 </div>

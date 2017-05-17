@@ -12,6 +12,7 @@
                     <div class="col desaparecer">Código</div>
                     <div class="col">Producto</div>
                     <div class="col">Cantidad</div>
+                    <div class="col"></div>
                     
                 
 
@@ -23,6 +24,12 @@
                         <div class="col desaparecer">{{movimiento.codigo}}</div>
                         <div class="col">{{movimiento.nombreProducto}}</div>
                         <div class="col">{{movimiento.cantidad}}</div>
+                        <div class="col">{{movimiento.cantidad}}</div>
+                        <div class="col">
+                            <button class="button button-small button-balanced" ng-click="almacenesReEg.abrirModalMovimiento(movimiento)">
+                                Detalles
+                            </button>
+                        </div>
                     </div>
 
                 </div>

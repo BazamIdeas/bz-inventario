@@ -12,17 +12,23 @@
                     <div class="col desaparecer">Código</div>
                     <div class="col">Producto</div>
                     <div class="col">Cantidad</div>
+                    <div class="col"></div>
                     
                 
 
                 </div>
                 </div>
-                <div class="item" ng-repeat="movimiento in almacenesReIn.movimientos" ng-click="almacenesReIn.abrirModalMovimiento(movimiento)">
+                <div class="item" ng-repeat="movimiento in almacenesReIn.movimientos">
                     <div class="row">
                         <div class="col desaparecer">{{almacenesReIn.crearFecha(movimiento.fecha) | date: "dd/MM/yyyy"}}</div>
                         <div class="col desaparecer">{{movimiento.codigo}}</div>
                         <div class="col">{{movimiento.nombreProducto}}</div>
                         <div class="col">{{movimiento.cantidad}}</div>
+                        <div class="col">
+                            <button class="button button-small button-balanced" ng-click="almacenesReIn.abrirModalMovimiento(movimiento)">
+                                Detalles
+                            </button>
+                        </div>
                     </div>
 
                 </div>

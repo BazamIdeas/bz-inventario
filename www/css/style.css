@@ -126,16 +126,30 @@
     width: 150px;
 }
 
-@media (max-width: 360px) and (orientation: portrait) { 
 
-    .desaparecer{
+
+
+@media (max-width: 480px){ 
+
+    .col {
         
-        display: none;
+        font-size: 12px;
         
     }
-
-
+    
 }
+
+@media (max-width: 480) and (orientation: portrait){
+    
+    .desaparecer{
+
+        display: none;
+
+    }
+    
+}
+
+
 
 
 

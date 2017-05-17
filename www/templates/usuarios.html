@@ -26,19 +26,18 @@
                 <div class="item item-divider">
                     Asistente
                 </div>
-                <div class="item"  ng-repeat="usuario in usuarios.usuarios | filter: {tipoUser: 'User'}">
-                    <h2>{{usuario.nombre}}</h2>
-                    <p>{{usuario.email}}</p>
-                    <!--<label class="toggle">
-                        <input type="checkbox" ng-model="usuario.estado" ng-true-value="'1'" ng-false-value="'0'">
-                        <div class="track">
-                            <div class="handle"></div>
-                        </div>
-                    </label>
-                    -->
+                <div class="item row" ng-repeat="usuario in usuariosFiltrados = (usuarios.usuarios | filter: {tipoUser: 'User', estado: 1})">
+                    <div class="col">
+                        <h2>{{usuario.nombre}}</h2>
+                        <p>{{usuario.email}}</p>
+                    </div>                    
+                    <div class="col">
+                        <button style="float: right" class="button button-assertive button-small" ng-click="usuarios.abrirModal(usuario, $index)">Eliminar</button>
+                        <button style="float: right; margin-right: 5px" class="button button-positive button-small" ng-click="usuarios.abrirModalEditar(usuario, $index)">Editar</button>
+                        
+                    </div>
                 </div>
-                
-                <div class="item" ng-hide="(usuarios.usuarios | filter: {tipoUser: 'User'}).length">
+                <div class="item" ng-hide="usuariosFiltrados.length">
                     <div class="row">
                         <div class="col">No se encontraron asistentes</div>
                     </div>

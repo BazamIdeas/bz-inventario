@@ -1,6 +1,6 @@
 angular.module('bz-inventario')
 
-.controller('loginController', ['$scope', '$firebaseArray', 'CONFIG', '$document', '$state', 'usuarioService', 'storageFactory', function ($scope, $firebaseArray, CONFIG, $document, $state, usuarioService, storageFactory) {
+.controller('loginController', ['$scope', '$firebaseArray', 'CONFIG', '$document', '$state', 'usuarioService', 'storageFactory', '$ionicPopup', function ($scope, $firebaseArray, CONFIG, $document, $state, usuarioService, storageFactory, $ionicPopup) {
 
     $scope.deshabilitar = false;
 
@@ -29,7 +29,11 @@ angular.module('bz-inventario')
 
                 .catch(function (res) {
                     $scope.deshabilitar = false;
-                    console.log("error del servidor")
+
+
+                    $ionicPopup.alert({
+                        template: 'Error del servidor'
+                    });
 
                 })
 
@@ -43,28 +47,43 @@ angular.module('bz-inventario')
                 var errorMessage = error.message;
 
 
-                /*    if (errorCode === 'auth/invalid-email') {
-                        alert('Usa un email valido.');
-                        return false;
-                    } else if (errorCode === 'auth/wrong-password') {
-                        alert('Contraseña incorrecta.');
-                        return false;
-                    } else if (errorCode === 'auth/argument-error') {
-                        alert('Contraseña incorrecta.');
-                        return false;
-                    } else if (errorCode === 'auth/user-not-found') {
-                        alert('Usuario no encontrado.');
-                        return false;
-                    } else if (errorCode === 'auth/too-many-requests') {
-                        alert('Demasiados intentos, por favor intentalo más tarde.');
-                        return false;
-                    } else if (errorCode === 'auth/network-request-failed') {
-                        alert('El tiempo de espera se agotó, por favor intentalo nuevamente.');
-                        return false;
-                    } else {
-                        alert(errorMessage);
-                        return false;
-                    }*/
+                if (errorCode === 'auth/invalid-email') {
+
+                    $ionicPopup.alert({
+                        template: 'Usa un email valido.'
+                    });
+
+
+                } else if (errorCode === 'auth/wrong-password') {
+
+
+                    $ionicPopup.alert({
+                        template: 'Contraseña incorrecta.'
+                    });
+
+                } else if (errorCode === 'auth/argument-error') {
+                    $ionicPopup.alert({
+                        template: 'Contraseña incorrecta.'
+                    });
+                } else if (errorCode === 'auth/user-not-found') {
+                    $ionicPopup.alert({
+                        template: 'Usuario no encontrado.'
+                    });
+                } else if (errorCode === 'auth/too-many-requests') {
+
+                    $ionicPopup.alert({
+                        template: 'Demasiados intentos, por favor en unos minutos.'
+                    });
+                } else if (errorCode === 'auth/network-request-failed') {
+
+                    $ionicPopup.alert({
+                        template: 'El tiempo de espera se agotó, por favor intentalo nuevamente.'
+                    });
+                } else {
+                    $ionicPopup.alert({
+                        template: errorMessage
+                    });
+                }
             })
 
 
@@ -118,23 +137,21 @@ angular.module('bz-inventario')
 
 }])
 
-.controller('resetController', ['$scope', '$state', '$document', '$firebaseArray', 'CONFIG', function ($scope, $state, $document, $firebaseArray, CONFIG) {
+.controller('resetController', ['$scope', '$state', '$firebaseArray', 'CONFIG', '$ionicPopup', function ($scope, $state, $firebaseArray, CONFIG, $ionicPopup) {
 
-    $scope.doResetemail = function (userReset) {
-
-
-
-        //console.log(userReset);
-
-        if ($document[0].getElementById("ruser_name").value != "") {
+    $scope.doResetEmail = function (userReset, valido) {
 
 
-            firebase.auth().sendPasswordResetEmail(userReset.rusername).then(function () {
-                // Sign-In successful.
-                //console.log("Reset email sent successful");
 
-                $state.go("login", {}, {
-                    reload: true
+
+        if (valido) {
+
+
+            firebase.auth().sendPasswordResetEmail(userReset).then(function () {
+
+
+                $ionicPopup.alert({
+                    template: 'Correo de cambio de contraseña enviada.'
                 });
 
 
@@ -142,25 +159,30 @@ angular.module('bz-inventario')
                 // An error happened.
                 var errorCode = error.code;
                 var errorMessage = error.message;
-                console.log(errorCode);
 
 
                 if (errorCode === 'auth/user-not-found') {
-                    alert('No se encontro un usuario con este email.');
-                    return false;
+
+
+
+                    $ionicPopup.alert({
+                        template: 'No se encontró un usuario con este correo.'
+                    });
+
+
                 } else if (errorCode === 'auth/invalid-email') {
-                    alert('El email es invalido.');
-                    return false;
+
+
+                    $ionicPopup.alert({
+                        template: 'El correo es invalido.'
+                    });
+
+
                 }
 
             });
 
 
-
-        } else {
-
-            alert('Por favor introduce un email valido para enviarte un link');
-            return false;
 
         } //end check client username password
 
@@ -168,6 +190,7 @@ angular.module('bz-inventario')
     }; // end $scope.doSignup()
 
 
+    $ionicPopup
 
 }])
 
@@ -286,7 +309,7 @@ angular.module('bz-inventario')
 
     bz.productos = [];
 
-    bz.proveedores = []
+    bz.proveedores = [];
 
     proveedorService.lista.then(function (res) {
 
@@ -326,7 +349,7 @@ angular.module('bz-inventario')
 
 }])
 
-.controller('registroEgresoController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'trabajadorService', 'productoService', 'ordenService', 'storageFactory', '$state', function ($scope, $firebaseArray, CONFIG, $stateParams, trabajadorService, productoService, ordenService, storageFactory, $state) {
+.controller('registroEgresoController', ['$scope', '$firebaseArray', 'CONFIG', '$stateParams', 'trabajadorService', 'productoService', 'ordenService', 'storageFactory', '$state', '$ionicPopup', 'bodegaService', function ($scope, $firebaseArray, CONFIG, $stateParams, trabajadorService, productoService, ordenService, storageFactory, $state, $ionicPopup, bodegaService) {
 
 
 
@@ -357,31 +380,82 @@ angular.module('bz-inventario')
 
     trabajadorService.lista.then(function (res) {
 
-        bz.trabajadores = res.data.result;;
+        bz.trabajadores = res.data.result;
 
     });
 
-    productoService.lista
+    /* productoService.lista
 
+         .then(function (res) {
+
+         bz.productos = res.data.result;
+
+     });*/
+
+
+    bodegaService.productos(bz.bodega.idBodega)
         .then(function (res) {
 
-        bz.productos = res.data.result;
+            bz.productos = res;
 
-    });
+        })
+
 
     bz.registrar = function (registro, valido) {
+
         if (valido) {
+
             bz.deshabilitar = true;
+
             ordenService.nuevoEgreso(registro).then(function (res) {
-                bz.deshabilitar = false;
-                $state.go('app.operacionResuelta', {
-                    resultado: true,
-                    operacion: "Registro de Egreso",
-                    destino: "app.registro"
-                })
+
+                if (res.response) {
+
+                    bz.deshabilitar = false;
+                    $state.go('app.operacionResuelta', {
+                        resultado: true,
+                        operacion: "Registro de Egreso",
+                        destino: "app.registro"
+                    })
+
+
+                } else {
+
+                    bz.deshabilitar = false;
+
+                    bz.productosExcedidos = res.resul;
+
+                    $ionicPopup.alert({
+                        scope: $scope,
+                        template: '<div>No se pudo completar el egreso debido a que las cantidades usadas superan las existencias en el Almacen. Se listan los productos en conflicto a continuación: </div><div class="row" ng-repeat="producto in registroEgreso.productosExcedidos"><div class="col">{{producto}}</div></div>'
+                    });
+
+                }
 
             })
         }
+    }
+    
+    
+    bz.calcularDiferencia = function(cantidad, id){
+        
+        var cantidadExistente = 0;
+        
+        bz.productos.forEach(function (producto, index) {
+
+            if(producto.idProducto == id ){
+                
+                cantidadExistente = producto.existencia;
+                
+                
+            }
+            
+
+        })
+        
+        
+        return parseInt(cantidad) > parseInt(cantidadExistente);
+        
     }
 
 
@@ -408,7 +482,22 @@ angular.module('bz-inventario')
 
         bz.productos = res.data.result;
 
+        bz.productos.forEach(function (producto, index) {
+
+            productoService.valorUltimoMovimiento(producto.idProducto)
+
+            .then(function (res) {
+
+                bz.productos[index].ultimoPrecio = res.precio;
+
+            })
+
+        })
+
+
+
     });
+
 
     bz.eliminar = function (idProducto, indice) {
 
@@ -499,9 +588,11 @@ angular.module('bz-inventario')
 /************ USUARIOS *************/
 /***********************************/
 
-.controller('usuariosController', ['$scope', '$firebaseArray', 'CONFIG', 'usuarioService', function ($scope, $firebaseArray, CONFIG, usuarioService) {
+.controller('usuariosController', ['$scope', '$firebaseArray', 'CONFIG', 'usuarioService', '$ionicModal', function ($scope, $firebaseArray, CONFIG, usuarioService, $ionicModal) {
 
     var bz = this;
+
+    bz.deshabilitar = false;
 
     bz.usuarios = [];
 
@@ -510,6 +601,135 @@ angular.module('bz-inventario')
         bz.usuarios = res.data.result;
 
     });
+
+    //////////////////////////
+    ////Modal de eliminar/////
+    //////////////////////////
+
+    $ionicModal.fromTemplateUrl('templates/modals/usuarios.eliminar.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        bz.modal = modal;
+    });
+
+    bz.abrirModal = function (usuario, indice) {
+
+        bz.usuario = usuario;
+        bz.modal.show();
+
+    };
+    bz.cerrarModal = function () {
+        bz.modal.hide();
+    };
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function () {
+        bz.modal.remove();
+    });
+
+
+    ///////////////////////////
+    /////Eliminar Usuario//////
+    ///////////////////////////
+
+
+    bz.eliminarUsuario = function (usuario) {
+
+
+
+        bz.deshabilitar = true;
+
+        usuarioService.eliminar(usuario.idUsuario)
+
+        .then(function (res) {
+
+            bz.usuarios.splice(bz.usuarios.indexOf(usuario), 1);
+            bz.deshabilitar = false;
+            bz.cerrarModal();
+
+        })
+
+        .catch(function (res) {
+
+
+            bz.deshabilitar = false;
+            bz.cerrarModal();
+
+        })
+
+    }
+
+
+    //////////////////////////
+    ////Modal de editar///////
+    //////////////////////////
+
+    $ionicModal.fromTemplateUrl('templates/modals/usuarios.editar.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        bz.modalEditar = modal;
+    });
+
+
+    bz.abrirModalEditar = function (usuario, indice) {
+
+        bz.usuario = {idUsuario: usuario.idUsuario, nombre: usuario.nombre, email: usuario.email, tipoUser: usuario.tipoUser};
+        bz.usuario.indice = bz.usuarios.indexOf(usuario);
+        bz.modalEditar.show();
+
+    };
+    bz.cerrarModalEditar = function () {
+        bz.modalEditar.hide();
+    };
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function () {
+        bz.modalEditar.remove();
+    });
+
+
+    /////////////////////////
+    ///////editar usuario////
+    /////////////////////////
+
+
+    bz.editarUsuario = function (usuario, valido) {
+
+        var datos = {
+            idUsuario: usuario.idUsuario,
+            nombre: usuario.nombre,
+            email: usuario.email,
+            tipoUser: usuario.tipoUser
+            
+        }
+
+        bz.deshabilitar = true; 
+        
+        if(valido){
+            
+            usuarioService.registrar(datos)
+
+            .then(function (res) {
+                console.log(res)
+                bz.usuarios[usuario.indice].nombre = usuario.nombre;
+                bz.deshabilitar = false;
+                bz.cerrarModalEditar();
+
+            })
+
+            .catch(function (res) {
+
+
+                bz.deshabilitar = false;
+                bz.cerrarModalEditar();
+
+
+            })
+        }
+    }
+
+
+
 
 }])
 
@@ -588,7 +808,7 @@ angular.module('bz-inventario')
 /***********************************/
 
 
-.controller('proveedoresController', ['$scope', '$firebaseArray', 'CONFIG', 'proveedorService', function ($scope, $firebaseArray, CONFIG, proveedorService) {
+.controller('proveedoresController', ['$scope', '$firebaseArray', 'CONFIG', 'proveedorService', '$ionicModal', function ($scope, $firebaseArray, CONFIG, proveedorService, $ionicModal) {
 
     var bz = this;
 
@@ -600,6 +820,62 @@ angular.module('bz-inventario')
         bz.proveedores = res.data.result;
 
     });
+
+
+    //////////////////////////
+    ////Modal de eliminar/////
+    //////////////////////////
+
+    $ionicModal.fromTemplateUrl('templates/modals/proveedores.eliminar.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        bz.modal = modal;
+    });
+
+    bz.abrirModal = function (proveedor, indice) {
+
+        bz.proveedor = proveedor;
+        bz.modal.show();
+
+    };
+    bz.cerrarModal = function () {
+        bz.modal.hide();
+    };
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function () {
+        bz.modal.remove();
+    });
+
+
+    ///////////////////////////
+    /////Eliminar Proveedor//////
+    ///////////////////////////
+
+    bz.eliminarProveedor = function (proveedor) {
+
+        bz.deshabilitar = true;
+
+        proveedorService.eliminar(proveedor.idProveedor)
+
+        .then(function (res) {
+
+            bz.proveedores.splice(bz.proveedores.indexOf(proveedor), 1);
+            bz.deshabilitar = false;
+            bz.cerrarModal();
+
+        })
+
+        .catch(function (res) {
+
+            bz.deshabilitar = false;
+            bz.cerrarModal();
+
+        })
+
+    }
+
+
 
 }])
 
@@ -647,7 +923,7 @@ angular.module('bz-inventario')
 /********* TRABAJADORES ************/
 /***********************************/
 
-.controller('trabajadoresController', ['$scope', '$firebaseArray', 'CONFIG', 'trabajadorService', function ($scope, $firebaseArray, CONFIG, trabajadorService) {
+.controller('trabajadoresController', ['$scope', '$firebaseArray', 'CONFIG', 'trabajadorService', '$ionicModal', function ($scope, $firebaseArray, CONFIG, trabajadorService, $ionicModal) {
 
     var bz = this;
 
@@ -658,6 +934,62 @@ angular.module('bz-inventario')
         bz.trabajadores = res.data.result;
 
     });
+
+
+    //////////////////////////
+    ////Modal de eliminar/////
+    //////////////////////////
+
+    $ionicModal.fromTemplateUrl('templates/modals/trabajadores.eliminar.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        bz.modal = modal;
+    });
+
+    bz.abrirModal = function (trabajadores, indice) {
+
+        bz.trabajador = trabajadores;
+        bz.modal.show();
+
+    };
+    bz.cerrarModal = function () {
+        bz.modal.hide();
+    };
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function () {
+        bz.modal.remove();
+    });
+
+
+    ///////////////////////////
+    /////Eliminar Proveedor//////
+    ///////////////////////////
+
+    bz.eliminarTrabajador = function (trabajador) {
+
+        bz.deshabilitar = true;
+
+
+        trabajadorService.eliminar(trabajador.idTrabajador)
+
+        .then(function (res) {
+
+            bz.trabajadores.splice(bz.trabajadores.indexOf(trabajador), 1);
+            bz.deshabilitar = false;
+            bz.cerrarModal();
+
+        })
+
+        .catch(function (res) {
+
+            bz.deshabilitar = false;
+            bz.cerrarModal();
+
+        })
+
+    }
+
 
 }])
 
@@ -899,14 +1231,14 @@ angular.module('bz-inventario')
     bz.descargarRango = function (link) {
 
         bz.desDescarga = true;
-        
+
         movimientosService.descargar(bz.bodega.idBodega)
 
         .then(function (res) {
 
             if (res.response == true) {
 
-                
+
                 var link = apiRootFactory + res.link;
 
 
@@ -929,7 +1261,7 @@ angular.module('bz-inventario')
                 $cordovaFileTransfer.download(link, directorio, {}, true).then(function (result) {
 
                     bz.progreso = "Descarga Completa."
-                     bz.desDescarga = false;
+                    bz.desDescarga = false;
                     $timeout(function () {
                         popup.close();
                     }, 2000);
@@ -937,7 +1269,8 @@ angular.module('bz-inventario')
                 }, function (error) {
 
                     bz.progreso = "Descarga fállida."
-                     bz.desDescarga = false;
+                    bz.desDescarga = false;
+                    bz.desDescarga = false;
 
                     $timeout(function () {
                         popup.close();
@@ -1013,7 +1346,7 @@ angular.module('bz-inventario')
 
     bz.abrirModalProducto = function (idAlmacen, idProducto) {
 
-        console.log(idProducto)
+
         productoService.movimientos(idAlmacen, idProducto)
 
         .then(function (res) {
@@ -1057,26 +1390,30 @@ angular.module('bz-inventario')
 
     bz.abrirModalMovimiento = function (movimiento) {
 
+        //console.log(movimiento)
 
-        var idMovimiento = (movimiento.tipo == "Ingreso") ? movimiento.idIngreso : movimiento.idEgreso;
+        //var idMovimiento = (movimiento.tipo == "Ingreso") ? movimiento.idIngreso : movimiento.idEgreso; //AQUI AQUI AQUI
+
+        bz.movimiento = movimiento;
+        bz.modalMovimiento.show();
+        /*
+                if (idMovimiento) {
+                    movimientosService.detalles(idMovimiento)
+
+                    .then(function (res) {
+                            
+                            
+                            bz.movimiento = res;
+                            bz.modalMovimiento.show();
+
+                        })
+                        .catch(function (res) {
+
+                            console.log("fallo")
 
 
-
-        if (idMovimiento) {
-            movimientosService.detalles(idMovimiento)
-
-            .then(function (res) {
-                    bz.movimiento = res;
-                    bz.modalMovimiento.show();
-
-                })
-                .catch(function (res) {
-
-                    console.log("fallo")
-
-
-                })
-        }
+                        })
+                }*/
 
     };
     bz.cerrarModalMovimiento = function () {

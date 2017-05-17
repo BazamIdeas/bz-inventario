@@ -1,0 +1,15 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Eliminar Trabajador</h1> <button class="button button-primary" ng-click="trabajadores.cerrarModal()" ng-disabled="trabajadores.deshabilitar">Cerrar</button>
+    </ion-header-bar>
+    <ion-content>
+        <div class="padding">
+            ¿Está seguro de eliminar este trabajador ({{trabajadores.trabajador.nombre}})? ¡No se podrá utilizar de nuevo para ningun registro!
+
+            <button class="button button-block button-assertive" ng-click="trabajadores.eliminarTrabajador(trabajadores.trabajador)" ng-disabled="trabajadores.deshabilitar">
+            Eliminar
+        </button>
+        </div>
+
+    </ion-content>
+</ion-modal-view>

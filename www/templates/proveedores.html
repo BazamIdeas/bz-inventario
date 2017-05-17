@@ -11,17 +11,22 @@
                 Nuevo Proveedor
             </button>
             <div class="list">
-                <div class="item" ng-repeat="proveedor in proveedores.proveedores">
-                    <h2>{{proveedor.nombreProveedor}}</h2>
-                    <p>{{proveedor.descripcion}}</p>
-                    
+                <div class="item row" ng-repeat="proveedor in proveedoresFiltrados = (proveedores.proveedores | filter: {estadoP: 1})">
+                    <div class="col">
+                        <h2>{{proveedor.nombreProveedor}}</h2>
+                        <p>{{proveedor.descripcion}}</p>
+                    </div>
+                    <div class="col">
+                        <button style="float: right" class="button button-assertive button-small" ng-click="proveedores.abrirModal(proveedor, $index)">Eliminar</button>
+                    </div>
+
                 </div>
-                <div class="item" ng-hide="proveedores.proveedores.length">
+                <div class="item" ng-hide="proveedoresFiltrados.length">
                     <div class="row">
                         <div class="col">No se encontraron proveedores</div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </ion-content>

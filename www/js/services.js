@@ -50,7 +50,7 @@ angular.module('bz-inventario')
         })
 
         .then(function (res) {
-            defered.resolve(res.data.result);
+            defered.resolve(res.data);
         })
 
         return promise;
@@ -115,11 +115,10 @@ angular.module('bz-inventario')
         .then(function (res) {
             defered.resolve(res.data.result);
 
-
-
         })
 
         return promise;
+
     }
 
 
@@ -204,7 +203,7 @@ angular.module('bz-inventario')
             defered.resolve(res.data.result);
 
 
-        })
+        });
 
         return promise;
     }
@@ -365,6 +364,42 @@ angular.module('bz-inventario')
 
 
     }
+    
+    
+    this.valorUltimoMovimiento = function(idProducto){
+        
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.post(apiRootFactory + "ingreso/precio", $httpParamSerializer({
+            
+            idProducto: idProducto
+        
+        }), {
+            
+            headers: {
+
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+
+        .then(function (res) {
+
+            defered.resolve(res.data.result);
+
+        })
+
+        .catch(function (res) {
+
+
+        })
+
+        return promise;
+        
+        
+        
+    }
 
 }])
 
@@ -401,6 +436,40 @@ angular.module('bz-inventario')
         })
 
         return promise;
+    }
+    
+    
+    this.eliminar = function(idProveedor){
+        
+        
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.get(apiRootFactory + "proveedor/bloquear/"+ idProveedor, {
+            headers: {
+
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+
+
+        .then(function (res) {
+
+            defered.resolve(res.data.response);
+
+
+        })
+        
+        .catch(function(res){
+            
+            defered.reject(res);
+            
+        })
+
+        return promise;
+        
     }
 
 
@@ -444,6 +513,38 @@ angular.module('bz-inventario')
         return promise;
     }
 
+    this.eliminar = function(idTrabajador){
+        
+        
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.get(apiRootFactory + "trabajador/bloquear/"+ idTrabajador, {
+            headers: {
+
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+
+
+        .then(function (res) {
+
+            defered.resolve(res.data.response);
+
+
+        })
+        
+        .catch(function(res){
+            
+            defered.reject(res);
+            
+        })
+
+        return promise;
+        
+    }
 
 
 }])
@@ -515,6 +616,40 @@ angular.module('bz-inventario')
         })
 
         return promise;
+    }
+    
+    
+    this.eliminar = function(idUsuario){
+        
+        
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.get(apiRootFactory + "usuario/bloquear/"+ idUsuario, {
+            headers: {
+
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+
+
+        .then(function (res) {
+
+            defered.resolve(res.data.response);
+
+
+        })
+        
+        .catch(function(res){
+            
+            defered.reject(res);
+            
+        })
+
+        return promise;
+        
     }
 
 }])

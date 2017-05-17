@@ -1,0 +1,15 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Eliminar Proveedor</h1> <button class="button button-primary" ng-click="proveedores.cerrarModal()" ng-disabled="proveedores.deshabilitar">Cerrar</button>
+    </ion-header-bar>
+    <ion-content>
+        <div class="padding">
+            ¿Está seguro de eliminar este proveedor ({{proveedores.proveedor.nombreProveedor}})? ¡No se podrá utilizar de nuevo para ningun registro!
+
+            <button class="button button-block button-assertive" ng-click="proveedores.eliminarProveedor(proveedores.proveedor)" ng-disabled="proveedores.deshabilitar">
+            Eliminar
+        </button>
+        </div>
+
+    </ion-content>
+</ion-modal-view>
