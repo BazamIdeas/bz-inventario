@@ -2,6 +2,35 @@
     <ion-content class="has-header">
         <div class="padding">
             <div class="list">
+                <div class="item item-toggle">
+                    Filtrar resultados:
+                    <label class="toggle toggle-assertive">
+                        <input ng-model="almacenesReEg.filtro" type="checkbox">
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+                </div>
+                <div class="item" ng-if="almacenesReEg.filtro">
+                    <div class="row">
+                        <div class="col">
+                            <label>
+                                <span class="input-label">Número de Orden:</span>
+                                <input ng-model="almacenesReEg.filtros.orden" type="text" placeholder="Número de Orden">
+                            </label>
+                        </div>
+                        <div class="col">
+                            <label>
+                                <span class="input-label">Trabajador:</span>
+                                <input ng-model="almacenesReEg.filtros.trabajador" type="text" placeholder="Trabajador">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="list">
                 <div class="item item-divider">
                     <div class="row">
                         <div class="col">Número de Orden</div>
@@ -9,7 +38,7 @@
                         <div class="col"></div>
                     </div>
                 </div>
-                <div class="item" ng-repeat="egreso in almacenesReEg.egresos" ng-click="almacenesReEg.abrirModalMovimientos(egreso, almacenesReEg.bodega.idBodega )">
+                <div class="item" ng-repeat="egreso in almacenesReEg.egresos | filter: {orden: almacenesReEg.filtros.orden, trabajador: almacenesReEg.filtros.trabajador}" ng-click="almacenesReEg.abrirModalMovimientos(egreso, almacenesReEg.bodega.idBodega )">
                     <div class="row" >
                         <div class="col">{{egreso.orden}}</div>
                         <div class="col">{{egreso.trabajador}}</div>
@@ -20,7 +49,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="item" ng-hide="almacenesReEg.egresos.length">
+                <div class="item" ng-hide="(almacenesReEg.egresos | filter: {orden: almacenesReEg.filtros.orden, trabajador: almacenesReEg.filtros.trabajador}).length">
                     <div class="row">
                         <div class="col">No se encontraron egresos</div>
                     </div>

@@ -10,8 +10,37 @@
             <button class="button button-block button-positive" ui-sref="app.proveedoresRegistro">
                 Nuevo Proveedor
             </button>
+            
             <div class="list">
-                <div class="item row" ng-repeat="proveedor in proveedoresFiltrados = (proveedores.proveedores | filter: {estadoP: 1})">
+                <div class="item item-toggle">
+                    Filtrar resultados:
+                    <label class="toggle toggle-assertive">
+                        <input ng-model="proveedores.filtro" type="checkbox">
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+                </div>
+                <div class="item" ng-if="proveedores.filtro">
+                    <div class="row">
+                        <div class="col">
+                            <label>
+                                <span class="input-label">Nombre:</span>
+                                <input ng-model="proveedores.filtros.nombreProveedor" type="text" placeholder="Nombre">
+                            </label>
+                        </div>
+                        <div class="col">
+                            <label>
+                                <span class="input-label">Descripción:</span>
+                                <input ng-model="proveedores.filtros.descripcion" type="text" placeholder="Descripción">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="list">
+                <div class="item row" ng-repeat="proveedor in proveedoresFiltrados = (proveedores.proveedores | filter: {estadoP: 1, nombreProveedor: proveedores.filtros.nombreProveedor, descripcion: proveedores.filtros.descripcion})">
                     <div class="col">
                         <h2>{{proveedor.nombreProveedor}}</h2>
                         <p>{{proveedor.descripcion}}</p>

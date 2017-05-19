@@ -10,22 +10,51 @@
             <button class="button button-block button-positive" ui-sref="app.productosRegistro">
                 Nuevo Producto
             </button>
+            
+            <div class="list">
+                <div class="item item-toggle">
+                    Filtrar resultados:
+                    <label class="toggle toggle-assertive">
+                        <input ng-model="productos.filtro" type="checkbox">
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+                </div>
+                <div class="item" ng-if="productos.filtro">
+                    <div class="row">
+                        <div class="col">
+                            <label>
+                                <span class="input-label">Código:</span>
+                                <input ng-model="productos.filtros.codigo" type="text" placeholder="Código">
+                            </label>
+                        </div>
+                        <div class="col">
+                            <label>
+                                <span class="input-label">Nombre:</span>
+                                <input ng-model="productos.filtros.nombreProducto" type="text" placeholder="Nombre">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="list">
                 <div class="item item-divider">
                     <div class="row">
-                        <div class="col">Codigo</div>
+                        <div class="col">Código</div>
                         <div class="col">Nombre</div>
                         <div class="col desaparecer">Ultimo precio de Compra</div>
                         <div class="col"></div>
-                        
+
                     </div>
                 </div>
-                <div class="item" ng-repeat="producto in productos.productos">
-                    <div class="row" >
+                <div class="item" ng-repeat="producto in productos.productos | filter: {codigo: productos.filtros.codigo, nombreProducto: productos.filtros.nombreProducto}">
+                    <div class="row">
                         <div class="col">{{producto.codigo}}</div>
                         <div class="col">{{producto.nombreProducto}}</div>
                         <div class="col" ng-show="producto.ultimoPrecio">{{producto.ultimoPrecio | currency }}</div>
-                        <div class="col" ng-hide="producto.ultimoPrecio">N/A</div>                        
+                        <div class="col" ng-hide="producto.ultimoPrecio">N/A</div>
                         <div class="col">
                             <button class="button button-small button-balanced" ng-click="productos.abrirModal(producto, $index)">
                                 Detalles
@@ -33,20 +62,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="item" ng-hide="productos.productos.length">
+                <div class="item" ng-hide="(productos.productos | filter: {codigo: productos.filtros.codigo, nombreProducto: productos.filtros.nombreProducto}).length">
 
-                     <div class="row">
+                    <div class="row">
                         <div class="col">No se encontraron productos</div>
                     </div>
-                
+
                 </div>
             </div>
         </div>
     </ion-content>
-  
+
 
 </ion-view>
-
-
-
-

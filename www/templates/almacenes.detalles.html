@@ -22,6 +22,35 @@
             Descargar Movimientos por Rango
         </button>
         <div class="padding">
+            
+            <div class="list">
+                <div class="item item-toggle">
+                    Filtrar resultados:
+                    <label class="toggle toggle-assertive">
+                        <input ng-model="almacenesDe.filtro" type="checkbox">
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+                </div>
+                <div class="item" ng-if="almacenesDe.filtro">
+                    <div class="row">
+                        <div class="col">
+                            <label>
+                                <span class="input-label">Código:</span>
+                                <input ng-model="almacenesDe.filtros.codigo" type="text" placeholder="Código">
+                            </label>
+                        </div>
+                        <div class="col">
+                            <label>
+                                <span class="input-label">Nombre:</span>
+                                <input ng-model="almacenesDe.filtros.nombreProducto" type="text" placeholder="Nombre">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="list">
                 <div class="item item-divider">
                     Productos Almacenados
@@ -34,7 +63,7 @@
                         <div class="col"></div>
                     </div>
                 </div>
-                <div class="item" ng-repeat="producto in almacenesDe.productos">
+                <div class="item" ng-repeat="producto in almacenesDe.productos | filter: {codigo: almacenesDe.filtros.codigo, nombreProducto: almacenesDe.filtros.nombreProducto, existencia: almacenesDe.filtros.existencia}">
                     <div class="row">
                         <div class="col desaparecer">{{producto.codigo}}</div>
                         <div class="col">{{producto.nombreProducto}}</div>
@@ -46,7 +75,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="item" ng-hide="almacenesDe.productos.length">
+                <div class="item" ng-hide="(almacenesDe.productos | filter: {codigo: almacenesDe.filtros.codigo, nombreProducto: almacenesDe.filtros.nombreProducto, existencia: almacenesDe.filtros.existencia}).length">
                     <div class="row">
                         <div class="col">No se encontraron existencias</div>
                     </div>

@@ -435,31 +435,25 @@ angular.module('bz-inventario')
             })
         }
     }
-    
-    
-    bz.calcularDiferencia = function(cantidad, id){
-        
+
+
+    bz.calcularDiferencia = function (cantidad, id) {
+
         var cantidadExistente = 0;
-        
+
         bz.productos.forEach(function (producto, index) {
 
-            if(producto.idProducto == id ){
-                
+            if (producto.idProducto == id) {
+
                 cantidadExistente = producto.existencia;
-                
-                
+
             }
-            
 
         })
-        
-        
+
         return parseInt(cantidad) > parseInt(cantidadExistente);
-        
+
     }
-
-
-
 
 }])
 
@@ -674,7 +668,12 @@ angular.module('bz-inventario')
 
     bz.abrirModalEditar = function (usuario, indice) {
 
-        bz.usuario = {idUsuario: usuario.idUsuario, nombre: usuario.nombre, email: usuario.email, tipoUser: usuario.tipoUser};
+        bz.usuario = {
+            idUsuario: usuario.idUsuario,
+            nombre: usuario.nombre,
+            email: usuario.email,
+            tipoUser: usuario.tipoUser
+        };
         bz.usuario.indice = bz.usuarios.indexOf(usuario);
         bz.modalEditar.show();
 
@@ -700,13 +699,13 @@ angular.module('bz-inventario')
             nombre: usuario.nombre,
             email: usuario.email,
             tipoUser: usuario.tipoUser
-            
+
         }
 
-        bz.deshabilitar = true; 
-        
-        if(valido){
-            
+        bz.deshabilitar = true;
+
+        if (valido) {
+
             usuarioService.registrar(datos)
 
             .then(function (res) {
@@ -1035,7 +1034,7 @@ angular.module('bz-inventario')
 /*********** ALMACENES *************/
 /***********************************/
 
-.controller('almacenesController', ['$scope', '$firebaseArray', 'CONFIG', 'bodegaService', function ($scope, $firebaseArray, CONFIG, bodegaService) {
+.controller('almacenesController', ['$scope', '$firebaseArray', 'CONFIG', 'bodegaService', '$stateParams', function ($scope, $firebaseArray, CONFIG, bodegaService, $stateParams) {
 
     var bz = this;
 
@@ -1050,6 +1049,21 @@ angular.module('bz-inventario')
         bz.listaAlmacenes = res.data.result;
 
     });
+
+
+    if ($stateParams.actualizar) {
+
+        bodegaService.lista
+
+            .then(function (res) {
+
+            bz.listaAlmacenes = res.data.result;
+
+        });
+
+    }
+
+
 
 
 

@@ -159,7 +159,6 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages', '
             }
         },
         params:{
-            
             reload: null
         }
     })
@@ -168,6 +167,7 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages', '
 
     .state('app.almacenesRegistro', {
         url: '/almacenes/registro',
+        cache: false,
         views: {
             'menuContent': {
                 templateUrl: 'templates/almacenes.registro.html',
@@ -196,7 +196,9 @@ angular.module('bz-inventario', ['ionic', 'firebase', 'configs', 'ngMessages', '
                 if ($stateParams.nombre) {
 
                     storageFactory.definir($state.name, $stateParams);
+                    
                     return false;
+                    
                 } else {
 
                     return storageFactory.obtener($state.name);
