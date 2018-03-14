@@ -92,7 +92,32 @@ angular.module('bz-inventario')
 
 
     /** listado de bodegas **/
-    this.lista = $http.get(apiRootFactory + "bodega/lista");
+    this.lista = function () {
+
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+          $http.post(apiRootFactory + "bodega/lista")
+              
+        .then(function (res) {
+            
+              defered.resolve(res);
+
+        })
+          
+          .catch(function(res){
+              
+              console.log(res)
+          })
+          
+          
+
+        return promise;
+
+    }
+        
+        
 
     /** todos los movimientos en una bodega**/
 
@@ -278,7 +303,23 @@ angular.module('bz-inventario')
 
     /** Listado de productos existentes **/
 
-    this.lista = $http.get(apiRootFactory + "producto/lista");
+    this.lista =  function (producto) {
+
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.post(apiRootFactory + "producto/lista")
+
+        .then(function (res) {
+
+            defered.resolve(res);
+
+
+        })
+
+        return promise;
+    }
 
 
 
@@ -413,7 +454,24 @@ angular.module('bz-inventario')
 
     /** Listado de proveedor existentes **/
 
-    this.lista = $http.get(apiRootFactory + "proveedor/lista");
+      
+    this.lista =  function (producto) {
+
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.post(apiRootFactory + "proveedor/lista")
+
+        .then(function (res) {
+
+            defered.resolve(res);
+
+
+        })
+
+        return promise;
+    }
 
     this.registrar = function (proveedor) {
 
@@ -485,8 +543,24 @@ angular.module('bz-inventario')
 .service('trabajadorService', ["$http", "apiRootFactory", "$httpParamSerializer", "$q", function ($http, apiRootFactory, $httpParamSerializer, $q) {
 
     /** Listado de proveedor existentes **/
+    
+     this.lista =  function (producto) {
 
-    this.lista = $http.get(apiRootFactory + "trabajador/lista");
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+        $http.post(apiRootFactory + "trabajador/lista")
+
+        .then(function (res) {
+
+            defered.resolve(res);
+
+
+        })
+
+        return promise;
+    }
 
     /** Registrar trabajador **/
 
@@ -560,8 +634,32 @@ angular.module('bz-inventario')
 .service('usuarioService', ["$http", "apiRootFactory", "$httpParamSerializer", "$q", function ($http, apiRootFactory, $httpParamSerializer, $q) {
 
     /** Listado de usuarios existentes **/
+    
+     this.lista = function () {
 
-    this.lista = $http.get(apiRootFactory + "usuario/lista");
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+
+          $http.post(apiRootFactory + "usuario/lista")
+              
+        .then(function (res) {
+            
+              defered.resolve(res);
+
+        })
+          
+          .catch(function(res){
+              
+              console.log(res)
+          })
+          
+          
+
+        return promise;
+
+    }
+    
 
 
     /** registrar usuario **/

@@ -270,7 +270,7 @@ angular.module('bz-inventario')
 
     bz.listaAlmacenes = [];
 
-    bodegaService.lista
+    bodegaService.lista()
 
         .then(function (res) {
 
@@ -311,13 +311,13 @@ angular.module('bz-inventario')
 
     bz.proveedores = [];
 
-    proveedorService.lista.then(function (res) {
+    proveedorService.lista().then(function (res) {
 
         bz.proveedores = res.data.result;
 
     });
 
-    productoService.lista
+    productoService.lista()
 
         .then(function (res) {
 
@@ -378,7 +378,7 @@ angular.module('bz-inventario')
 
     bz.productos = [];
 
-    trabajadorService.lista.then(function (res) {
+    trabajadorService.lista().then(function (res) {
 
         bz.trabajadores = res.data.result;
 
@@ -470,7 +470,7 @@ angular.module('bz-inventario')
 
     bz.productos = [];
 
-    productoService.lista
+    productoService.lista()
 
         .then(function (res) {
 
@@ -590,7 +590,7 @@ angular.module('bz-inventario')
 
     bz.usuarios = [];
 
-    usuarioService.lista.then(function (res) {
+    usuarioService.lista().then(function (res) {
 
         bz.usuarios = res.data.result;
 
@@ -814,7 +814,7 @@ angular.module('bz-inventario')
 
     bz.proveedores = []
 
-    proveedorService.lista.then(function (res) {
+    proveedorService.lista().then(function (res) {
 
         bz.proveedores = res.data.result;
 
@@ -1042,7 +1042,7 @@ angular.module('bz-inventario')
 
     bz.listaAlmacenes = [];
 
-    bodegaService.lista
+    bodegaService.lista()
 
         .then(function (res) {
 
@@ -1053,7 +1053,7 @@ angular.module('bz-inventario')
 
     if ($stateParams.actualizar) {
 
-        bodegaService.lista
+        bodegaService.lista()
 
             .then(function (res) {
 
